@@ -1,66 +1,52 @@
-/* ==========  YUQORI O‘NG SAVAT (rasmdagidek)  ========== */
-.cart-bar{
+/* ---------- yuqori o‘ng ikonka (1-rasmdagidek) ---------- */
+.cart-icon{
   position:fixed;
-  top:12px;          /* ← yuqori o‘ng */
+  top:12px;
   right:12px;
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:var(--radius);
-  box-shadow:0 8px 24px rgba(0,0,0,.5);
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 14px;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(6px);
+  border-radius:12px;
+  padding:8px;
   cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
   transition:.3s;
   z-index:5;
 }
-.cart-bar.hidden{
+.cart-icon.hidden{
   display:none;
-}
-.cart-bar-label{
-  font-size:14px;
-  font-weight:600;
-}
-.cart-bar-sum{
-  font-size:15px;
-  font-weight:700;
-  color:var(--accent);
 }
 .cart-svg{
   width:26px;
   height:26px;
   fill:none;
-  stroke:var(--accent);
+  stroke:#ff5722;
   stroke-width:1.8;
-  transition:.3s;
 }
-.cart-bar:hover .cart-svg{
-  stroke:var(--text);
-}
-.cart-bar-count{
-  background:var(--accent);
-  color:#000;
+.cart-icon-count{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  background:#ff5722;
+  color:#fff;
   border-radius:10px;
   padding:2px 6px;
-  font-size:12px;
+  font-size:11px;
   font-weight:700;
-  margin-left:-6px;
 }
 
-/* ---------- ovqatlar ro‘yxati (o‘rta) ---------- */
+/* ---------- asosiy – ovqatlar (1-rasmdagidek) ---------- */
 #list{
-  padding:70px 16px 20px;   /* 70px – savat bar bilan to‘qnashmasin */
+  padding:60px 16px 20px;   /* 60px – ikonka bilan to‘qnashmasin */
 }
 .card{
-  background:var(--card);
-  border-radius:var(--radius);
+  background:#fff;
+  border-radius:18px;
   display:flex;
   align-items:center;
   gap:12px;
   padding:12px;
   margin-bottom:12px;
-  box-shadow:0 4px 14px rgba(0,0,0,.4);
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
 .card img{
   width:90px;
@@ -78,11 +64,11 @@
 .price{
   font-size:20px;
   font-weight:700;
-  color:var(--accent);
+  color:#ff5722;
   margin:4px 0 8px;
 }
 .btn{
-  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
+  background:linear-gradient(135deg,#ff5722 0%,#e64a19 100%);
   color:#fff;
   border:none;
   padding:8px 16px;
@@ -93,7 +79,7 @@
 }
 .btn:hover{transform:scale(1.05);}
 
-/* ---------- overlay ---------- */
+/* ---------- 2-rasmdagi – overlay savat ---------- */
 .overlay{
   position:fixed;
   inset:0;
@@ -105,10 +91,10 @@
   z-index:10;
 }
 .cart-modal{
-  background:var(--card);
+  background:#fff;
   width:90%;
   max-width:400px;
-  border-radius:var(--radius);
+  border-radius:18px;
   padding:16px;
   box-shadow:0 8px 30px rgba(0,0,0,.6);
 }
@@ -122,7 +108,7 @@
 }
 .close{
   cursor:pointer;
-  color:var(--accent);
+  color:#ff5722;
 }
 #cartList{
   list-style:none;
@@ -150,7 +136,7 @@
 }
 .btn-order{
   width:100%;
-  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
+  background:linear-gradient(135deg,#ff5722 0%,#e64a19 100%);
   color:#fff;
   border:none;
   padding:12px;
