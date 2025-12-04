@@ -6,18 +6,9 @@ const items = [
   {id:5,img:"https://i.ibb.co/RkMYJJG8/44d00abe-766c-4b92-aedb-4840c48637bb.jpg",name:"Pepsi",price:10000}
 ];
 
-let cart = {};          // {id: qty}
-let phone   = null;     // telefon
-let userLoc = null;     // {lat, lon}
+const list = document.getElementById('list');
 
-const list      = document.getElementById('list');
-const cartIcon  = document.getElementById('cartIcon');
-const cartCount = document.getElementById('cartIconCount');
-const overlay   = document.getElementById('cartOverlay');
-const cartList  = document.getElementById('cartList');
-const cartSum   = document.getElementById('cartSum');
-
-/* ---------- asosiy – ovqatlar (kirganda ko‘rsatiladi) ---------- */
+/* ---------- faqat ovqatlar ro‘yxati ---------- */
 items.forEach(it=>{
   const card = document.createElement('div');
   card.className = 'card';
@@ -26,120 +17,23 @@ items.forEach(it=>{
     <div class="info">
       <div class="name">${it.name}</div>
       <div class="price">${it.price.toLocaleString()} so‘m</div>
-      <button class="btn" onclick="addToCart(${it.id})">➕ Qo'shish</button>
+      <button class="btn" onclick="sendItem('${it.name}')">Tanlash</button>
     </div>`;
   list.appendChild(card);
 });
 
-/* ---------- savatga qo‘shish ---------- */
-function addToCart(id){
-  cart[id] = (cart[id]||0)+1;
-  renderCartIcon();
-  showSnack(items.find(i=>i.id===id).name+" qo'shildi ✔");
-}
-
-/* ---------- ikonka count ---------- */
-function renderCartIcon(){
-  const total = Object.values(cart).reduce((a,b)=>a+b,0);
-  cartIcon.classList.toggle('hidden', total===0);
-  cartCount.textContent = total;
-}
-renderCartIcon();
-
-/* ---------- faqat IKONKA bosilganda ochiladi ---------- */
-cartIcon.addEventListener('click', openCart);
-
-function openCart(){
-  if(Object.keys(cart).length===0) return;
-  updateCartModal();
-  overlay.classList.remove('hidden');
-}
-function closeCart(){
-  overlay.classList.add('hidden');
-}
-
-function updateCartModal(){
-  cartList.innerHTML='';
-  let total = 0;
-  for(const id in cart){
-    const {name,price} = items.find(i=>i.id==id);
-    const qty = cart[id];
-    total += price*qty;
-    const li = document.createElement('li');
-    li.className = 'cart-item';
-    li.innerHTML = `
-      <span>${name} ×${qty}</span>
-      <span>${(price*qty).toLocaleString()} so‘m
-        <span class="cart-item-remove" onclick="removeFromCart(${id})">✖</span>
-      </span>`;
-    cartList.appendChild(li);
-  }
-  cartSum.textContent = total.toLocaleString()+" so‘m";
-}
-function removeFromCart(id){
-  if(--cart[id]<=0) delete cart[id];
-  renderCartIcon();
-  updateCartModal();
-  if(Object.keys(cart).length===0) closeCart();
-}
-
-/* ---------- joylashuv ---------- */
-function checkLocation(){
-  if(!window.Telegram.WebApp){
-    alert("Joylashuv (test): 41.311151, 69.279737");
-    userLoc = {latitude:41.311151,longitude:69.279737};
-    sendOrder();
-    return;
-  }
-  Telegram.WebApp.requestLocation(loc=>{
-    if(!loc){
-      alert("Iltimos, joylashuvni yoqing.");
-      return;
-    }
-    userLoc = loc;
-    sendOrder();
-  });
-}
-
-/* ---------- buyurtma yuborish ---------- */
-function sendOrder(){
-  if(Object.keys(cart).length===0) return;
-  const order = Object.entries(cart).map(([id,q])=>{
-    const {name,price} = items.find(i=>i.id==id);
-    return {name,qty:q,sub:price*q};
-  });
-  const payload = {
-    action:"order",
-    phone:phone,
-    items:order,
-    location:userLoc
-  };
+/* ---------- botga mahsulot nomini yuborish (savatsiz) ---------- */
+function sendItem(name){
   if(window.Telegram.WebApp){
-    Telegram.WebApp.sendData(JSON.stringify(payload));
-    Telegram.WebApp.close();
+    Telegram.WebApp.sendData(JSON.stringify({action:"select",item:name}));
   }else{
-    alert("Buyurtma (test)\n"+JSON.stringify(payload,null,2));
+    alert("Tanlandi (test): "+name);
   }
 }
 
-/* ---------- telefon raqamni URL parametridan olish ---------- */
+/* ---------- telegramga tayyor ---------- */
 if(window.Telegram.WebApp){
   Telegram.WebApp.ready();
-  const params = new URLSearchParams(window.location.search);
-  phone = params.get("phone");
   Telegram.WebApp.expand();
 }
 
-/* ---------- snackbar ---------- */
-function showSnack(text){
-  const bar = document.getElementById('snack')||createSnack();
-  bar.textContent=text;
-  bar.classList.add('show');
-  setTimeout(()=>bar.classList.remove('show'),2000);
-}
-function createSnack(){
-  const s=document.createElement('div');
-  s.id='snack';
-  document.body.appendChild(s);
-  return s;
-}
