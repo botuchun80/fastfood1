@@ -9,22 +9,20 @@
   <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
 </head>
 <body>
-  <!-- =====  YUQORI O‘NG SAVAT (rasmdagidek)  ===== -->
-  <div id="cartBar" class="cart-bar hidden">
-    <span class="cart-bar-label">Savat</span>
-    <span id="cartBarSum" class="cart-bar-sum">0 so‘m</span>
-    <svg class="cart-svg" viewBox="0 0 24 24" onclick="openCart()">
+  <!-- =====  1-rasmdagidek – yuqori o‘ng ikonka  ===== -->
+  <div id="cartIcon" class="cart-icon hidden" onclick="openCart()">
+    <svg class="cart-svg" viewBox="0 0 24 24">
       <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
       <circle cx="9" cy="20" r="1" fill="var(--accent)"/>
       <circle cx="20" cy="20" r="1" fill="var(--accent)"/>
     </svg>
-    <span id="cartBarCount" class="cart-bar-count">0</span>
+    <span id="cartIconCount" class="cart-icon-count">0</span>
   </div>
 
-  <!-- =====  OVQATLAR  ===== -->
+  <!-- =====  ASOSIY – OVQATLAR (1-rasmdagidek)  ===== -->
   <div id="list"></div>
 
-  <!-- =====  SAVAT OYNASI (overlay)  ===== -->
+  <!-- =====  2-rasmdagi – SAVAT OYNASI (overlay)  ===== -->
   <div id="cartOverlay" class="overlay hidden">
     <div class="cart-modal">
       <div class="cart-head">
@@ -42,3 +40,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
