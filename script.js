@@ -7,14 +7,17 @@ const items = [
   { img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 },
 ];
 
+let cart = {};          // {id: qty}
+let phone   = null;     // telefon
+let userLoc = null;     // {lat, lon}
+
 const list      = document.getElementById('list');
-const cartEl    = document.getElementById('cart');
-const cartList  = document.getElementById('cart-list');
-const cartCount = document.getElementById('cart-count');
-const cartSum   = document.getElementById('cart-sum');
+const cartIcon  = document.getElementById('cartIcon');
+const overlay   = document.getElementById('cartOverlay');
+const cartList  = document.getElementById('cartList');
+const cartSum   = document.getElementById('cartSum');
 
-let cart = {}; // {id:qty}
-
+/* ---------- mahsulotlar ro‘yxati ---------- */
 items.forEach(it=>{
   const card = document.createElement('div');
   card.className = 'card';
@@ -23,74 +26,106 @@ items.forEach(it=>{
     <div class="info">
       <div class="name">${it.name}</div>
       <div class="price">${it.price.toLocaleString()} so‘m</div>
-      <button class="btn" onclick="addCart(${it.id})">Qo'shish</button>
+      <button class="btn-add" onclick="addToCart(${it.id})">➕ Qo'shish</button>
     </div>`;
   list.appendChild(card);
 });
 
-function addCart(id){
+/* ---------- savatga qo‘shish ---------- */
+function addToCart(id){
   cart[id] = (cart[id]||0)+1;
-  renderCart();
+  renderCartIcon();
   showSnack(items.find(i=>i.id===id).name+" qo'shildi ✔");
 }
 
-function renderCart(){
-  const empty = Object.keys(cart).length===0;
-  cartEl.classList.toggle('hidden',empty);
-  if(empty) return;
+/* ---------- savat ikonkasi ---------- */
+function renderCartIcon(){
+  const totalQty = Object.values(cart).reduce((a,b)=>a+b,0);
+  cartIcon.classList.toggle('hidden', totalQty===0);
+  cartIcon.querySelector('.cart-count').textContent = totalQty;
+}
+renderCartIcon();
 
+/* ---------- ikonkaga bosilsa ---------- */
+cartIcon.addEventListener('click', openCart);
+
+function openCart(){
+  if(Object.keys(cart).length===0) return;
+  updateCartModal();
+  overlay.classList.remove('hidden');
+}
+function closeCart(){
+  overlay.classList.add('hidden');
+}
+
+function updateCartModal(){
   cartList.innerHTML='';
-  let total=0, totalQty=0;
+  let total = 0;
   for(const id in cart){
-    const {name,price}=items.find(i=>i.id==id);
-    const qty=cart[id];
-    total+=price*qty;
-    totalQty+=qty;
-    const li=document.createElement('li');
-    li.className='cart-item';
-    li.innerHTML=`
+    const {name,price} = items.find(i=>i.id==id);
+    const qty = cart[id];
+    total += price*qty;
+    const li = document.createElement('li');
+    li.className = 'cart-item';
+    li.innerHTML = `
       <span>${name} ×${qty}</span>
       <span>${(price*qty).toLocaleString()} so‘m
-        <span class="cart-item-remove" onclick="removeCart(${id})">✖</span>
+        <span class="cart-item-remove" onclick="removeFromCart(${id})">✖</span>
       </span>`;
     cartList.appendChild(li);
   }
-  cartCount.textContent=totalQty;
-  cartSum.textContent=total.toLocaleString()+" so‘m";
+  cartSum.textContent = total.toLocaleString()+" so‘m";
 }
-
-function removeCart(id){
+function removeFromCart(id){
   if(--cart[id]<=0) delete cart[id];
-  renderCart();
+  renderCartIcon();
+  updateCartModal();
+  if(Object.keys(cart).length===0) closeCart();
 }
 
+/* ---------- joylashuv ---------- */
+function checkLocation(){
+  if(!window.Telegram.WebApp){
+    alert("Joylashuv (test): 41.311151, 69.279737");
+    userLoc = {latitude:41.311151,longitude:69.279737};
+    sendOrder();
+    return;
+  }
+  Telegram.WebApp.requestLocation(loc=>{
+    if(!loc){
+      alert("Iltimos, joylashuvni yoqing.");
+      return;
+    }
+    userLoc = loc;
+    sendOrder();
+  });
+}
+
+/* ---------- buyurtma yuborish ---------- */
 function sendOrder(){
   if(Object.keys(cart).length===0) return;
   const order = Object.entries(cart).map(([id,q])=>{
-    const {name,price}=items.find(i=>i.id==id);
+    const {name,price} = items.find(i=>i.id==id);
     return {name,qty:q,sub:price*q};
   });
+  const payload = {
+    action:"order",
+    phone:phone,
+    items:order,
+    location:userLoc
+  };
   if(window.Telegram.WebApp){
-    Telegram.WebApp.sendData(JSON.stringify({action:"order",items:order}));
+    Telegram.WebApp.sendData(JSON.stringify(payload));
+    Telegram.WebApp.close();
   }else{
-    alert("Buyurtma yuborildi (test)\n"+JSON.stringify(order,null,2));
+    alert("Buyurtma (test)\n"+JSON.stringify(payload,null,2));
   }
 }
 
-function showSnack(text){
-  const bar=document.getElementById('snack')||createSnack();
-  bar.textContent=text;
-  bar.classList.add('show');
-  setTimeout(()=>bar.classList.remove('show'),2000);
-}
-function createSnack(){
-  const s=document.createElement('div');
-  s.id='snack';
-  document.body.appendChild(s);
-  return s;
-}
-
+/* ---------- telefon raqamni WebApp parametridan olish ---------- */
 if(window.Telegram.WebApp){
   Telegram.WebApp.ready();
+  const params = new URLSearchParams(window.location.search);
+  phone = params.get("phone");          // bot tomonidan berilgan
   Telegram.WebApp.expand();
 }
