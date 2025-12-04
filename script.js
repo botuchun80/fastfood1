@@ -8,24 +8,36 @@ const items = [
 
 const list = document.getElementById('list');
 items.forEach(it=>{
-  const block = document.createElement('div');
-  block.className = 'item';
-  block.innerHTML = `
-    <img src="${it.img}">
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <img src="${it.img}" alt="">
     <div class="info">
       <div class="name">${it.name}</div>
       <div class="price">${it.price.toLocaleString()} so‘m</div>
       <button class="btn" onclick="addCart('${it.name}')">Qo'shish</button>
     </div>`;
-  list.appendChild(block);
+  list.appendChild(card);
 });
 
 function addCart(name){
   if(window.Telegram.WebApp){
     Telegram.WebApp.sendData(JSON.stringify({action:"add",item:name}));
-  }else{
-    alert(name + " savatchaga qo'shildi (test)");
   }
+  showSnack(name+" savatchaga qo'shildi ✔");
+}
+
+function showSnack(text){
+  const bar = document.getElementById('snack') || createSnack();
+  bar.textContent = text;
+  bar.classList.add('show');
+  setTimeout(()=>bar.classList.remove('show'),2000);
+}
+function createSnack(){
+  const s = document.createElement('div');
+  s.id = 'snack';
+  document.body.appendChild(s);
+  return s;
 }
 
 if(window.Telegram.WebApp){
