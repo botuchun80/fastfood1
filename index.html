@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>FastFood | Premium</title>
+  <title>FastFood | BLACK</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
   <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
@@ -11,11 +11,27 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>FastFood</h1>
+      <h1>Apex Pizza</h1>
       <p>Tez va mazali buyurtma</p>
     </div>
+
+    <!--  Savat  -->
+    <div id="cart" class="cart hidden">
+      <div class="cart-top">
+        <span class="cart-title">🛒 Savat</span>
+        <span id="cart-count">0</span>
+      </div>
+      <ul id="cart-list"></ul>
+      <div class="cart-total">
+        <span>Jami:</span>
+        <span id="cart-sum">0 so‘m</span>
+      </div>
+      <button class="btn-send" onclick="sendOrder()">Buyurtma berish</button>
+    </div>
+
     <div id="list"></div>
   </div>
   <script src="script.js"></script>
 </body>
 </html>
+
