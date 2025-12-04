@@ -1,42 +1,17 @@
-/* ---------- yuqori o‘ng ikonka (1-rasmdagidek) ---------- */
-.cart-icon{
-  position:fixed;
-  top:12px;
-  right:12px;
-  background:rgba(255,255,255,.95);
-  backdrop-filter:blur(6px);
-  border-radius:12px;
-  padding:8px;
-  cursor:pointer;
-  box-shadow:0 4px 14px rgba(0,0,0,.25);
-  transition:.3s;
-  z-index:5;
+/* ---------- faqat ovqatlar ---------- */
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  background:#f3f4f6;
+  color:#222;
+  display:flex;
+  justify-content:center;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
 }
-.cart-icon.hidden{
-  display:none;
-}
-.cart-svg{
-  width:26px;
-  height:26px;
-  fill:none;
-  stroke:#ff5722;
-  stroke-width:1.8;
-}
-.cart-icon-count{
-  position:absolute;
-  top:-4px;
-  right:-4px;
-  background:#ff5722;
-  color:#fff;
-  border-radius:10px;
-  padding:2px 6px;
-  font-size:11px;
-  font-weight:700;
-}
-
-/* ---------- asosiy – ovqatlar (1-rasmdagidek) ---------- */
 #list{
-  padding:60px 16px 20px;   /* 60px – ikonka bilan to‘qnashmasin */
+  padding:16px;
+  max-width:440px;
+  width:100%;
 }
 .card{
   background:#fff;
@@ -47,6 +22,11 @@
   padding:12px;
   margin-bottom:12px;
   box-shadow:0 4px 14px rgba(0,0,0,.08);
+  transition:transform .3s;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
 }
 .card img{
   width:90px;
@@ -78,70 +58,3 @@
   transition:.25s;
 }
 .btn:hover{transform:scale(1.05);}
-
-/* ---------- 2-rasmdagi – overlay savat ---------- */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  backdrop-filter:blur(6px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
-}
-.cart-modal{
-  background:#fff;
-  width:90%;
-  max-width:400px;
-  border-radius:18px;
-  padding:16px;
-  box-shadow:0 8px 30px rgba(0,0,0,.6);
-}
-.cart-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-  font-size:18px;
-  font-weight:600;
-}
-.close{
-  cursor:pointer;
-  color:#ff5722;
-}
-#cartList{
-  list-style:none;
-  max-height:220px;
-  overflow-y:auto;
-}
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:6px 0;
-  font-size:15px;
-}
-.cart-item-remove{
-  cursor:pointer;
-  color:#ff4d4d;
-  margin-left:8px;
-}
-.cart-total{
-  display:flex;
-  justify-content:space-between;
-  margin:12px 0 8px;
-  font-weight:700;
-  font-size:18px;
-}
-.btn-order{
-  width:100%;
-  background:linear-gradient(135deg,#ff5722 0%,#e64a19 100%);
-  color:#fff;
-  border:none;
-  padding:12px;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:700;
-  cursor:pointer;
-}
