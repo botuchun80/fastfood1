@@ -1,22 +1,4 @@
-:root{
-  --accent:#00ffd1;
-  --accent-dark:#00b894;
-  --bg:#0f0f0f;
-  --card:#1a1a1a;
-  --text:#e4e4e4;
-  --radius:18px;
-}
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-body{
-  font-family:'Inter',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-/* ==========  CART-BAR (2-rasmdagi joy)  ========== */
+/* ==========  PASTKI CART-BAR (2-rasmdagi joy)  ========== */
 .cart-bar{
   position:fixed;
   bottom:12px;
@@ -65,51 +47,6 @@ body{
   font-weight:700;
   margin-left:-6px;
 }
-
-/* ---------- mahsulotlar ro‘yxati ---------- */
-#list{
-  padding:60px 16px 20px;   /* tepadan 60px - cart-bar bilan pustoy bo‘lmasin */
-}
-.card{
-  background:var(--card);
-  border-radius:var(--radius);
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px;
-  margin-bottom:12px;
-  box-shadow:0 4px 14px rgba(0,0,0,.4);
-}
-.card img{
-  width:90px;
-  height:90px;
-  border-radius:12px;
-  object-fit:cover;
-}
-.info{
-  flex:1;
-}
-.name{
-  font-size:17px;
-  font-weight:600;
-}
-.price{
-  font-size:20px;
-  font-weight:700;
-  color:var(--accent);
-  margin:4px 0 8px;
-}
-.btn-add{
-  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
-  color:#000;
-  border:none;
-  padding:8px 16px;
-  border-radius:10px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.25s;
-}
-.btn-add:hover{transform:scale(1.05);}
 
 /* ---------- overlay ---------- */
 .overlay{
