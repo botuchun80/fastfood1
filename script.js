@@ -11,14 +11,13 @@ let phone   = null;     // telefon
 let userLoc = null;     // {lat, lon}
 
 const list      = document.getElementById('list');
-const cartBar   = document.getElementById('cartBar');
-const cartCount = document.getElementById('cartBarCount');
-const cartSum   = document.getElementById('cartBarSum');
+const cartIcon  = document.getElementById('cartIcon');
+const cartCount = document.getElementById('cartIconCount');
 const overlay   = document.getElementById('cartOverlay');
 const cartList  = document.getElementById('cartList');
-const cartSumModal = document.getElementById('cartSum');
+const cartSum   = document.getElementById('cartSum');
 
-/* ---------- mahsulotlar ro‘yxati (avtomatik ochilmaydi) ---------- */
+/* ---------- asosiy – ovqatlar (kirganda ko‘rsatiladi) ---------- */
 items.forEach(it=>{
   const card = document.createElement('div');
   card.className = 'card';
@@ -35,24 +34,20 @@ items.forEach(it=>{
 /* ---------- savatga qo‘shish ---------- */
 function addToCart(id){
   cart[id] = (cart[id]||0)+1;
-  renderCartBar();
+  renderCartIcon();
   showSnack(items.find(i=>i.id===id).name+" qo'shildi ✔");
 }
 
-/* ---------- cart-bar (count + sum) ---------- */
-function renderCartBar(){
-  const totalQty = Object.values(cart).reduce((a,b)=>a+b,0);
-  const totalSum = Object.entries(cart).reduce((sum,[id,q])=>{
-    return sum + items.find(i=>i.id==id).price * q;
-  },0);
-  cartBar.classList.toggle('hidden', totalQty===0);
-  cartCount.textContent = totalQty;
-  cartSum.textContent = totalSum.toLocaleString()+" so‘m";
+/* ---------- ikonka count ---------- */
+function renderCartIcon(){
+  const total = Object.values(cart).reduce((a,b)=>a+b,0);
+  cartIcon.classList.toggle('hidden', total===0);
+  cartCount.textContent = total;
 }
-renderCartBar();
+renderCartIcon();
 
-/* ---------- faqat TUGMA bosilganda ochiladi ---------- */
-cartBar.addEventListener('click', openCart);
+/* ---------- faqat IKONKA bosilganda ochiladi ---------- */
+cartIcon.addEventListener('click', openCart);
 
 function openCart(){
   if(Object.keys(cart).length===0) return;
@@ -79,11 +74,11 @@ function updateCartModal(){
       </span>`;
     cartList.appendChild(li);
   }
-  cartSumModal.textContent = total.toLocaleString()+" so‘m";
+  cartSum.textContent = total.toLocaleString()+" so‘m";
 }
 function removeFromCart(id){
   if(--cart[id]<=0) delete cart[id];
-  renderCartBar();
+  renderCartIcon();
   updateCartModal();
   if(Object.keys(cart).length===0) closeCart();
 }
