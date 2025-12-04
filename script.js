@@ -1,12 +1,10 @@
 const items = [
-  { img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Burger", price: 50000 },
-  { img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Cheeseburger", price: 42000 },
-  { img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Hamburger", price: 45000 },
-  { img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Double Cheeseburger", price: 35000 },
-  { img: "https://i.ibb.co/RkMYJJG8/44d00abe-766c-4b92-aedb-4840c48637bb.jpg", name: "Pepsi", price: 10000 },
-  { img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 },
+  {id:1,img:"https://i.ibb.co/sJtWCn5M/images-1.jpg",name:"Burger",price:50000},
+  {id:2,img:"https://i.ibb.co/sJtWCn5M/images-1.jpg",name:"Cheeseburger",price:42000},
+  {id:3,img:"https://i.ibb.co/sJtWCn5M/images-1.jpg",name:"Hamburger",price:45000},
+  {id:4,img:"https://i.ibb.co/sJtWCn5M/images-1.jpg",name:"Double Cheeseburger",price:35000},
+  {id:5,img:"https://i.ibb.co/RkMYJJG8/44d00abe-766c-4b92-aedb-4840c48637bb.jpg",name:"Pepsi",price:10000}
 ];
-
 
 let cart = {};          // {id: qty}
 let phone   = null;     // telefon
@@ -14,7 +12,6 @@ let userLoc = null;     // {lat, lon}
 
 const list      = document.getElementById('list');
 const cartBar   = document.getElementById('cartBar');
-const cartIcon  = document.getElementById('cartIcon');
 const cartCount = document.getElementById('cartBarCount');
 const cartSum   = document.getElementById('cartBarSum');
 const overlay   = document.getElementById('cartOverlay');
@@ -30,7 +27,7 @@ items.forEach(it=>{
     <div class="info">
       <div class="name">${it.name}</div>
       <div class="price">${it.price.toLocaleString()} so‘m</div>
-      <button class="btn-add" onclick="addToCart(${it.id})">➕ Qo'shish</button>
+      <button class="btn" onclick="addToCart(${it.id})">➕ Qo'shish</button>
     </div>`;
   list.appendChild(card);
 });
@@ -54,8 +51,8 @@ function renderCartBar(){
 }
 renderCartBar();
 
-/* ---------- cart-bar / ikon bosilsa ---------- */
-cartIcon.addEventListener('click', openCart);
+/* ---------- cart-bar bosilsa ---------- */
+cartBar.addEventListener('click', openCart);
 
 function openCart(){
   if(Object.keys(cart).length===0) return;
