@@ -1,7 +1,7 @@
-/* ==========  PASTKI CART-BAR (2-rasmdagi joy)  ========== */
+/* ==========  YUQORI O‘NG SAVAT (rasmdagidek)  ========== */
 .cart-bar{
   position:fixed;
-  bottom:12px;
+  top:12px;          /* ← yuqori o‘ng */
   right:12px;
   background:var(--card);
   border:1px solid rgba(255,255,255,.08);
@@ -47,6 +47,51 @@
   font-weight:700;
   margin-left:-6px;
 }
+
+/* ---------- ovqatlar ro‘yxati (o‘rta) ---------- */
+#list{
+  padding:70px 16px 20px;   /* 70px – savat bar bilan to‘qnashmasin */
+}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  margin-bottom:12px;
+  box-shadow:0 4px 14px rgba(0,0,0,.4);
+}
+.card img{
+  width:90px;
+  height:90px;
+  border-radius:12px;
+  object-fit:cover;
+}
+.info{
+  flex:1;
+}
+.name{
+  font-size:17px;
+  font-weight:600;
+}
+.price{
+  font-size:20px;
+  font-weight:700;
+  color:var(--accent);
+  margin:4px 0 8px;
+}
+.btn{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
+  color:#fff;
+  border:none;
+  padding:8px 16px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+}
+.btn:hover{transform:scale(1.05);}
 
 /* ---------- overlay ---------- */
 .overlay{
@@ -106,7 +151,7 @@
 .btn-order{
   width:100%;
   background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
-  color:#000;
+  color:#fff;
   border:none;
   padding:12px;
   border-radius:10px;
