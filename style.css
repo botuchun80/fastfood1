@@ -1,5 +1,5 @@
 :root{
-  --accent:#494949;
+  --accent:#00b894;
   --accent-dark:#00b894;
   --bg:#0f0f0f;
   --card:#1a1a1a;
@@ -161,3 +161,4 @@ body{
   font-weight:700;
   cursor:pointer;
 }
+
