@@ -18,7 +18,7 @@ const overlay   = document.getElementById('cartOverlay');
 const cartList  = document.getElementById('cartList');
 const cartSumModal = document.getElementById('cartSum');
 
-/* ---------- mahsulotlar ro‘yxati ---------- */
+/* ---------- mahsulotlar ro‘yxati (avtomatik ochilmaydi) ---------- */
 items.forEach(it=>{
   const card = document.createElement('div');
   card.className = 'card';
@@ -39,7 +39,7 @@ function addToCart(id){
   showSnack(items.find(i=>i.id===id).name+" qo'shildi ✔");
 }
 
-/* ---------- cart-bar yangilash ---------- */
+/* ---------- cart-bar (count + sum) ---------- */
 function renderCartBar(){
   const totalQty = Object.values(cart).reduce((a,b)=>a+b,0);
   const totalSum = Object.entries(cart).reduce((sum,[id,q])=>{
@@ -51,7 +51,7 @@ function renderCartBar(){
 }
 renderCartBar();
 
-/* ---------- cart-bar bosilsa ---------- */
+/* ---------- faqat TUGMA bosilganda ochiladi ---------- */
 cartBar.addEventListener('click', openCart);
 
 function openCart(){
