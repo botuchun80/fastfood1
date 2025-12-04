@@ -7,15 +7,19 @@ const items = [
   { img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 },
 ];
 
+
 let cart = {};          // {id: qty}
 let phone   = null;     // telefon
 let userLoc = null;     // {lat, lon}
 
 const list      = document.getElementById('list');
+const cartBar   = document.getElementById('cartBar');
 const cartIcon  = document.getElementById('cartIcon');
+const cartCount = document.getElementById('cartBarCount');
+const cartSum   = document.getElementById('cartBarSum');
 const overlay   = document.getElementById('cartOverlay');
 const cartList  = document.getElementById('cartList');
-const cartSum   = document.getElementById('cartSum');
+const cartSumModal = document.getElementById('cartSum');
 
 /* ---------- mahsulotlar ro‘yxati ---------- */
 items.forEach(it=>{
@@ -34,19 +38,23 @@ items.forEach(it=>{
 /* ---------- savatga qo‘shish ---------- */
 function addToCart(id){
   cart[id] = (cart[id]||0)+1;
-  renderCartIcon();
+  renderCartBar();
   showSnack(items.find(i=>i.id===id).name+" qo'shildi ✔");
 }
 
-/* ---------- savat ikonkasi ---------- */
-function renderCartIcon(){
+/* ---------- cart-bar yangilash ---------- */
+function renderCartBar(){
   const totalQty = Object.values(cart).reduce((a,b)=>a+b,0);
-  cartIcon.classList.toggle('hidden', totalQty===0);
-  cartIcon.querySelector('.cart-count').textContent = totalQty;
+  const totalSum = Object.entries(cart).reduce((sum,[id,q])=>{
+    return sum + items.find(i=>i.id==id).price * q;
+  },0);
+  cartBar.classList.toggle('hidden', totalQty===0);
+  cartCount.textContent = totalQty;
+  cartSum.textContent = totalSum.toLocaleString()+" so‘m";
 }
-renderCartIcon();
+renderCartBar();
 
-/* ---------- ikonkaga bosilsa ---------- */
+/* ---------- cart-bar / ikon bosilsa ---------- */
 cartIcon.addEventListener('click', openCart);
 
 function openCart(){
@@ -74,11 +82,11 @@ function updateCartModal(){
       </span>`;
     cartList.appendChild(li);
   }
-  cartSum.textContent = total.toLocaleString()+" so‘m";
+  cartSumModal.textContent = total.toLocaleString()+" so‘m";
 }
 function removeFromCart(id){
   if(--cart[id]<=0) delete cart[id];
-  renderCartIcon();
+  renderCartBar();
   updateCartModal();
   if(Object.keys(cart).length===0) closeCart();
 }
@@ -122,10 +130,24 @@ function sendOrder(){
   }
 }
 
-/* ---------- telefon raqamni WebApp parametridan olish ---------- */
+/* ---------- telefon raqamni URL parametridan olish ---------- */
 if(window.Telegram.WebApp){
   Telegram.WebApp.ready();
   const params = new URLSearchParams(window.location.search);
-  phone = params.get("phone");          // bot tomonidan berilgan
+  phone = params.get("phone");
   Telegram.WebApp.expand();
+}
+
+/* ---------- snackbar ---------- */
+function showSnack(text){
+  const bar = document.getElementById('snack')||createSnack();
+  bar.textContent=text;
+  bar.classList.add('show');
+  setTimeout(()=>bar.classList.remove('show'),2000);
+}
+function createSnack(){
+  const s=document.createElement('div');
+  s.id='snack';
+  document.body.appendChild(s);
+  return s;
 }
