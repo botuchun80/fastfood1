@@ -7,40 +7,41 @@ const items = [
   { id: 6, img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 }
 ];
 
+let cart = [];
 
 const list = document.getElementById('list');
 
-items.forEach((it,i)=>{
+items.forEach((it, i) => {
   const card = document.createElement('div');
   card.className = 'card';
-  card.style.animationDelay = `${i*0.08}s`;
+  card.style.animationDelay = `${i * 0.1}s`;
   card.innerHTML = `
     <img src="${it.img}" alt="">
     <div class="info">
       <div class="name">${it.name}</div>
       <div class="price">${it.price.toLocaleString()} so‘m</div>
-      <button class="btn" onclick="sendItem('${it.name}')">Tanlash</button>
+      <button class="btn" onclick="addToCart(${it.id})">Tanlash</button>
     </div>`;
   list.appendChild(card);
 });
 
-function sendItem(name){
-  if(window.Telegram && window.Telegram.WebApp){
-    Telegram.WebApp.sendData(JSON.stringify({action:"select",item:name}));
-  }else{
-    alert("Tanlandi (test): "+name);
-  }
+function addToCart(id) {
+  const item = items.find(i => i.id === id);
+  cart.push(item);
+  Telegram.WebApp.showPopup({ title: "✅ Savatga qo‘shildi", message: `${item.name} savatga qo‘shildi` });
+  Telegram.WebApp.MainButton.setParams({
+    text: `Buyurtma berish (${cart.length})`,
+    color: "#ffd700",
+    text_color: "#000"
+  }).show();
 }
 
-if(window.Telegram && window.Telegram.WebApp){
+if (window.Telegram && Telegram.WebApp) {
   Telegram.WebApp.ready();
   Telegram.WebApp.expand();
-}
 
-/* ---------- bottom nav active ---------- */
-document.querySelectorAll('.nav-item').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
+  Telegram.WebApp.MainButton.onClick(() => {
+    const order = cart.map(i => ({ name: i.name, price: i.price }));
+    Telegram.WebApp.sendData(JSON.stringify({ action: "order", items: order }));
   });
-});
+}
