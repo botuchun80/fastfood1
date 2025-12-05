@@ -1,11 +1,11 @@
-/* --------------------  DIAMOND VARIABLES  -------------------- */
+/* --------------------  CHAMPAGNE VARIABLES  -------------------- */
 :root{
   --bg:#000;
   --card:#0a0a0a;
   --glass:rgba(255,255,255,.08);
   --text:#fff;
-  --accent:#ffd700;       /* champagne */
-  --accent2:#ff1744;      /* ruby */
+  --accent:#ffd700;       /* sariq */
+  --accent-dark:#b39700;
   --radius:24px;
   --shadow:0 16px 48px rgba(255,215,0,.25);
 }
@@ -23,10 +23,10 @@ body{
   display:flex;
   flex-direction:column;
   min-height:100vh;
-  padding-bottom:80px;   /* nav uchun joy */
+  padding-bottom:70px;   /* nav uchun joy */
 }
 
-/* --------------------  CONTENT  -------------------- */
+/* --------------------  OVQATLAR (chiroylay animatsiya)  -------------------- */
 #list{
   flex:1;
   padding:20px;
@@ -52,9 +52,9 @@ body{
   box-shadow:var(--shadow);
 }
 .card img{
-  width:100px;
-  height:100px;
-  border-radius:14px;
+  width:110px;
+  height:110px;
+  border-radius:16px;
   object-fit:cover;
   flex-shrink:0;
   border:2px solid transparent;
@@ -73,7 +73,7 @@ body{
   transform:translateX(4px);
 }
 .name{
-  font-size:18px;
+  font-size:19px;
   font-weight:600;
   transition:color .3s;
 }
@@ -81,7 +81,7 @@ body{
   color:var(--accent);
 }
 .price{
-  font-size:22px;
+  font-size:24px;
   font-weight:700;
   color:var(--accent);
   margin:6px 0 10px;
@@ -93,10 +93,10 @@ body{
 }
 .btn{
   background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
-  color:#000;
+  color:#000;                       /* sariq fon */
   border:none;
-  padding:10px 20px;
-  border-radius:12px;
+  padding:10px 22px;
+  border-radius:14px;
   font-weight:700;
   cursor:pointer;
   transition:.25s;
@@ -116,14 +116,14 @@ body{
   left:100%;
 }
 .btn:hover{
-  transform:scale(1.08);
-  box-shadow:0 8px 28px rgba(255,215,0,.6);
+  transform:scale(1.1);
+  box-shadow:0 12px 32px rgba(255,215,0,.6);
 }
 .btn:active{
   transform:scale(.97);
 }
 
-/* --------------------  PASTKI NAV (shesha oynale)  -------------------- */
+/* --------------------  PASTKI NAV (sariq Menu/Savat, odam Profil)  -------------------- */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -137,7 +137,6 @@ body{
   align-items:center;
   justify-content:space-around;
   z-index:10;
-  /* shesha oynale – 3-rasmdagidek */
 }
 .nav-item{
   background:transparent;
@@ -166,7 +165,7 @@ body{
 }
 .nav-icon.menu{ fill:var(--accent); }
 .nav-icon.cart{ fill:var(--accent); }
-.nav-icon.profile{ fill:var(--accent2); }
+.nav-icon.profile{ fill:var(--accent); }   /* sariq odam */
 .nav-label{
   font-size:12px;
   font-weight:600;
