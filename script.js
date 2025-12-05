@@ -7,6 +7,7 @@ const items = [
   { id: 6, img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 }
 ];
 
+
 const list = document.getElementById('list');
 
 items.forEach((it,i)=>{
@@ -35,3 +36,11 @@ if(window.Telegram && window.Telegram.WebApp){
   Telegram.WebApp.ready();
   Telegram.WebApp.expand();
 }
+
+/* ---------- bottom nav active ---------- */
+document.querySelectorAll('.nav-item').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
