@@ -12,11 +12,13 @@
   <!-- =====  OVQATLAR  ===== -->
   <div id="list"></div>
 
-  <!-- =====  PASTKI NAV (Menu ko‘rsatiladi, Profil ichki sariq)  ===== -->
+  <!-- =====  PASTKI NAV (Menu ikonkasi sariq rangda)  ===== -->
   <nav class="bottom-nav">
     <button class="nav-item active" onclick="showSection('menu')">
-      <!-- Menu ikon – to‘g‘ri SVG -->
-      <svg class="nav-icon menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <!-- Menu ikon – sariq rangda, rasmdagidek -->
+      <svg class="nav-icon menu" viewBox="0 0 24 24" fill="#ffd700">
+        <path d="M3 6h18M3 12h18M3 18h18"/>
+      </svg>
       <span class="nav-label">Menu</span>
     </button>
 
@@ -27,7 +29,7 @@
     </button>
 
     <button class="nav-item" onclick="showSection('profile')">
-      <!-- Profil – ichki tarafi sariq (savatdagidek) -->
+      <!-- Profil ikon – sariq odam -->
       <svg class="nav-icon profile" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.74C7.55 9.82 9.69 9 12 9s4.45.82 6.14 2.74C16.43 19.18 14.03 20 12 20z"/></svg>
       <span class="nav-label">Profil</span>
     </button>
