@@ -1,61 +1,85 @@
-/* -------------  SYSTEM VARIABLES  ------------- */
+/* -------------  SYSTEM  ------------- */
 :root{
-  /* OLED pure */
   --bg:#000000;
-  --bg-card:rgba(10,10,10,.65);
-  --border:rgba(255,215,0,.08);
-  --text:#e6e6e6;
-  --text-dim:#7f7f7f;
+  --glass:rgba(255,255,255,.08);
+  --border-gold:rgba(255,215,0,.08);
   --gold:#ffd700;
   --gold-dark:#b39700;
-  --shadow:0 32px 64px rgba(255,215,0,.18);
-  --radius:24px;
-  --transition:.4s cubic-bezier(.4,0,.2,1);
+  --radius:16px;           /* <- smaller radius */
+  --transition:.3s cubic-bezier(.4,0,.2,1);
 }
 
-/* -------------  GLOBAL  ------------- */
-*{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  font-family:'Inter',sans-serif;
   background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
+  color:#e6e6e6;
+  padding:16px 12px 32px;
+  background-image:radial-gradient(circle at 50% 50%,rgba(255,215,0,.03) 0%, transparent 60%);
+}
+
+/* -------------  CART ICON (oldi)  ------------- */
+.cart-icon{
+  position:fixed;
+  top:16px;
+  right:16px;
+  width:48px;
+  height:48px;
+  background:var(--glass);
+  border:1px solid var(--border-gold);
+  border-radius:var(--radius);
+  backdrop-filter:blur(16px);
   display:flex;
-  flex-direction:column;
-  padding:24px 16px 40px;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255,215,0,.04) 0%, transparent 60%);
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  transition:transform var(--transition);
+}
+.cart-icon svg{width:22px;height:22px;fill:var(--gold)}
+.cart-badge{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  background:var(--gold);
+  color:#000;
+  font-size:11px;
+  font-weight:700;
+  min-width:18px;
+  height:18px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 2px 8px rgba(255,215,0,.5);
 }
 
 /* -------------  LIST  ------------- */
 #list{
-  flex:1;
-  max-width:440px;
+  max-width:400px;
   width:100%;
   margin:0 auto;
   display:flex;
   flex-direction:column;
-  gap:20px;
+  gap:12px;              /* <- tighter gap */
+  padding-top:70px;      /* cart icon ustun emas */
 }
 
-/* -------------  CARD  ------------- */
+/* -------------  CARD (ixcham)  ------------- */
 .card{
-  background:var(--bg-card);
-  border:1px solid var(--border);
+  background:rgba(10,10,10,.65);
+  border:1px solid var(--border-gold);
   border-radius:var(--radius);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(16px);
   display:flex;
   align-items:center;
-  gap:18px;
-  padding:18px;
+  gap:12px;
+  padding:12px;
   opacity:0;
-  transform:translateY(30px);
-  animation:fadeIn .8s var(--transition) forwards;
-  transition:transform var(--transition), box-shadow var(--transition);
+  transform:translateY(20px);
+  animation:fadeIn .6s var(--transition) forwards;
   position:relative;
   overflow:hidden;
 }
-.card::before{                /* subtle gold edge */
+.card::before{                /* gold edge */
   content:"";
   position:absolute;
   inset:0;
@@ -66,69 +90,36 @@ body{
   -webkit-mask-composite:xor;
   mask-composite:exclude;
 }
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:var(--shadow);
-}
-
 .card img{
-  width:120px;
-  height:120px;
-  border-radius:16px;
+  width:80px;              /* <- smaller */
+  height:80px;
+  border-radius:10px;
   object-fit:cover;
   flex-shrink:0;
   transition:transform var(--transition);
 }
-.card:hover img{transform:scale(1.08) rotate(-2deg)}
+.card:hover img{transform:scale(1.06) rotate(-1deg)}
 
 .info{flex:1}
-.name{
-  font-size:20px;
-  font-weight:600;
-  letter-spacing:-.4px;
-  margin-bottom:6px;
-}
-.price{
-  font-size:28px;
-  font-weight:700;
-  color:var(--gold);
-  text-shadow:0 0 12px rgba(255,215,0,.35);
-  margin-bottom:12px;
-}
+.name{font-size:16px;font-weight:600;letter-spacing:-.2px} /* <- smaller */
+.price{font-size:20px;font-weight:700;color:var(--gold);margin:4px 0 8px} /* <- smaller */
 
 /* -------------  BUTTON  ------------- */
 .btn{
   background:linear-gradient(135deg,var(--gold) 0%, var(--gold-dark) 100%);
   color:#000;
   border:none;
-  padding:12px 28px;
-  border-radius:14px;
-  font-weight:700;
-  font-size:16px;
+  padding:8px 18px;        /* <- smaller */
+  border-radius:10px;
+  font-weight:600;
+  font-size:14px;          /* <- smaller */
   cursor:pointer;
-  position:relative;
-  overflow:hidden;
-  transition:transform var(--transition), box-shadow var(--transition);
-  box-shadow:0 8px 24px rgba(255,215,0,.45);
+  transition:.25s;
+  box-shadow:0 6px 18px rgba(255,215,0,.4);
 }
-.btn:hover{transform:scale(1.05); box-shadow:0 12px 32px rgba(255,215,0,.65)}
-.btn:active{transform:scale(.98)}
+.btn:hover{transform:scale(1.05); box-shadow:0 8px 24px rgba(255,215,0,.6)}
+.btn:active{transform:scale(.97)}
 
-/* shimmer */
-.btn::after{
-  content:"";
-  position:absolute;
-  top:0; left:-150%;
-  width:150%; height:100%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
-  transition:left .9s;
-}
-.btn:hover::after{left:150%}
-
-/* -------------  ANIMATIONS  ------------- */
 @keyframes fadeIn{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  to{opacity:1; transform:translateY(0)}
 }
