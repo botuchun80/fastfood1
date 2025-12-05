@@ -1,10 +1,10 @@
-/* --------------------  ULTRA-DIAMOND VARIABLES  -------------------- */
+/* --------------------  CHAMPAGNE VARIABLES  -------------------- */
 :root{
-  --bg:#000000;                    /* absolute black */
-  --card:#0a0a0a;                  /* glossy black */
-  --glass:rgba(255,215,0,.08);
-  --text:#ffffff;
-  --accent:#ffd700;                /* champagne gold */
+  --bg:#000;
+  --card:#0a0a0a;
+  --glass:rgba(255,255,255,.08);
+  --text:#fff;
+  --accent:#ffd700;       /* sariq */
   --accent-dark:#b39700;
   --radius:24px;
   --shadow:0 16px 48px rgba(255,215,0,.25);
@@ -23,7 +23,7 @@ body{
   display:flex;
   flex-direction:column;
   min-height:100vh;
-  padding-bottom:80px;   /* nav uchun joy */
+  padding-bottom:70px;   /* nav uchun joy */
 }
 
 /* --------------------  OVQATLAR (chiroylay animatsiya)  -------------------- */
@@ -46,22 +46,6 @@ body{
   animation:fadeIn .6s ease both;
   transition:transform .35s, box-shadow .35s;
   transform-style:preserve-3d;
-  position:relative;
-  overflow:hidden;
-}
-.card::before{   /* chrome glare */
-  content:"";
-  position:absolute;
-  top:-50%; left:-50%;
-  width:200%; height:200%;
-  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%);
-  transform:rotate(45deg);
-  transition:all .6s;
-  opacity:0;
-}
-.card:hover::before{
-  opacity:1;
-  top:50%; left:50%;
 }
 .card:hover{
   transform:translateY(-8px) rotateX(5deg);
@@ -139,16 +123,16 @@ body{
   transform:scale(.97);
 }
 
-/* --------------------  PASTKI BO‘LIM (o‘zing yasa, linklarsiz)  -------------------- */
+/* --------------------  PASTKI NAV (Menu rasm linki + Savat SVG + Profil SVG)  -------------------- */
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  height:80px;
-  background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,215,0,.06));
-  backdrop-filter:blur(20px);
-  border-top:1px solid rgba(255,215,0,.3);
+  height:64px;
+  background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,215,0,.04));
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,215,0,.2);
   display:flex;
   align-items:center;
   justify-content:space-around;
@@ -161,31 +145,27 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:6px;
-  padding:10px 20px;
-  border-radius:20px;
+  gap:4px;
+  padding:8px 16px;
+  border-radius:16px;
   cursor:pointer;
   transition:.3s;
 }
 .nav-item:hover{
   background:rgba(255,255,255,.08);
 }
-.nav-item.active .nav-icon{
-  filter:drop-shadow(0 0 12px var(--accent));
+.nav-item.active .nav-img{
+  filter:drop-shadow(0 0 8px var(--accent));
 }
-.nav-icon{
-  width:32px;
-  height:32px;
-  fill:#000;   /* qora SVG */
+.nav-img{
+  width:28px;
+  height:28px;
+  object-fit:contain;
   transition:.3s;
   filter:brightness(0) saturate(100%) invert(84%) sepia(100%) saturate(2000%) hue-rotate(0deg) brightness(1.1);
   /* qora → sariq (1 xil) */
 }
-.nav-icon:hover{
-  transform:scale(1.15) rotateY(10deg);
-}
 .nav-label{
-  font-size:13px;
+  font-size:12px;
   font-weight:600;
-  letter-spacing:-.2px;
 }
