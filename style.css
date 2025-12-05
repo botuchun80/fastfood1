@@ -1,171 +1,134 @@
-/* --------------------  CHAMPAGNE VARIABLES  -------------------- */
+/* -------------  SYSTEM VARIABLES  ------------- */
 :root{
-  --bg:#000;
-  --card:#0a0a0a;
-  --glass:rgba(255,255,255,.08);
-  --text:#fff;
-  --accent:#ffd700;       /* sariq */
-  --accent-dark:#b39700;
+  /* OLED pure */
+  --bg:#000000;
+  --bg-card:rgba(10,10,10,.65);
+  --border:rgba(255,215,0,.08);
+  --text:#e6e6e6;
+  --text-dim:#7f7f7f;
+  --gold:#ffd700;
+  --gold-dark:#b39700;
+  --shadow:0 32px 64px rgba(255,215,0,.18);
   --radius:24px;
-  --shadow:0 16px 48px rgba(255,215,0,.25);
+  --transition:.4s cubic-bezier(.4,0,.2,1);
 }
 
-/* --------------------  GLOBAL  -------------------- */
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+/* -------------  GLOBAL  ------------- */
+*{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
+  min-height:100vh;
   display:flex;
   flex-direction:column;
-  min-height:100vh;
-  padding-bottom:70px;   /* nav uchun joy */
+  padding:24px 16px 40px;
+  background-image: radial-gradient(circle at 50% 50%, rgba(255,215,0,.04) 0%, transparent 60%);
 }
 
-/* --------------------  OVQATLAR (chiroylay animatsiya)  -------------------- */
+/* -------------  LIST  ------------- */
 #list{
   flex:1;
-  padding:20px;
   max-width:440px;
   width:100%;
   margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
+
+/* -------------  CARD  ------------- */
 .card{
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.06);
+  background:var(--bg-card);
+  border:1px solid var(--border);
   border-radius:var(--radius);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
   display:flex;
   align-items:center;
-  gap:14px;
-  padding:14px;
-  margin-bottom:16px;
-  animation:fadeIn .6s ease both;
-  transition:transform .35s, box-shadow .35s;
-  transform-style:preserve-3d;
-}
-.card:hover{
-  transform:translateY(-8px) rotateX(5deg);
-  box-shadow:var(--shadow);
-}
-.card img{
-  width:110px;
-  height:110px;
-  border-radius:16px;
-  object-fit:cover;
-  flex-shrink:0;
-  border:2px solid transparent;
-  background:linear-gradient(var(--bg),var(--bg)) padding-box,
-             linear-gradient(45deg,var(--accent),var(--accent-dark)) border-box;
-  transition:transform .4s;
-}
-.card img:hover{
-  transform:scale(1.08) rotateY(10deg);
-}
-.info{
-  flex:1;
-  transition:transform .3s;
-}
-.info:hover{
-  transform:translateX(4px);
-}
-.name{
-  font-size:19px;
-  font-weight:600;
-  transition:color .3s;
-}
-.name:hover{
-  color:var(--accent);
-}
-.price{
-  font-size:24px;
-  font-weight:700;
-  color:var(--accent);
-  margin:6px 0 10px;
-  text-shadow:0 0 8px var(--accent);
-  transition:transform .3s;
-}
-.price:hover{
-  transform:scale(1.05);
-}
-.btn{
-  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
-  color:#000;                       /* sariq fon */
-  border:none;
-  padding:10px 22px;
-  border-radius:14px;
-  font-weight:700;
-  cursor:pointer;
-  transition:.25s;
-  box-shadow:0 8px 24px rgba(255,215,0,.4);
+  gap:18px;
+  padding:18px;
+  opacity:0;
+  transform:translateY(30px);
+  animation:fadeIn .8s var(--transition) forwards;
+  transition:transform var(--transition), box-shadow var(--transition);
   position:relative;
   overflow:hidden;
 }
-.btn::after{   /* champagne shimmer */
+.card::before{                /* subtle gold edge */
   content:"";
   position:absolute;
-  top:0; left:-100%;
-  width:100%; height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
-  transition:left .7s;
+  inset:0;
+  border-radius:var(--radius);
+  padding:1px;
+  background:linear-gradient(135deg,var(--gold),transparent 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
 }
-.btn:hover::after{
-  left:100%;
-}
-.btn:hover{
-  transform:scale(1.1);
-  box-shadow:0 12px 32px rgba(255,215,0,.6);
-}
-.btn:active{
-  transform:scale(.97);
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow);
 }
 
-/* --------------------  PASTKI NAV (Menu rasm linki + Savat SVG + Profil SVG)  -------------------- */
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:64px;
-  background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,215,0,.04));
-  backdrop-filter:blur(16px);
-  border-top:1px solid rgba(255,215,0,.2);
-  display:flex;
-  align-items:center;
-  justify-content:space-around;
-  z-index:10;
-}
-.nav-item{
-  background:transparent;
-  border:none;
-  color:var(--text);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  padding:8px 16px;
+.card img{
+  width:120px;
+  height:120px;
   border-radius:16px;
-  cursor:pointer;
-  transition:.3s;
+  object-fit:cover;
+  flex-shrink:0;
+  transition:transform var(--transition);
 }
-.nav-item:hover{
-  background:rgba(255,255,255,.08);
-}
-.nav-item.active .nav-img{
-  filter:drop-shadow(0 0 8px var(--accent));
-}
-.nav-img{
-  width:28px;
-  height:28px;
-  object-fit:contain;
-  transition:.3s;
-  filter:brightness(0) saturate(100%) invert(84%) sepia(100%) saturate(2000%) hue-rotate(0deg) brightness(1.1);
-  /* qora → sariq (1 xil) */
-}
-.nav-label{
-  font-size:12px;
+.card:hover img{transform:scale(1.08) rotate(-2deg)}
+
+.info{flex:1}
+.name{
+  font-size:20px;
   font-weight:600;
+  letter-spacing:-.4px;
+  margin-bottom:6px;
+}
+.price{
+  font-size:28px;
+  font-weight:700;
+  color:var(--gold);
+  text-shadow:0 0 12px rgba(255,215,0,.35);
+  margin-bottom:12px;
+}
+
+/* -------------  BUTTON  ------------- */
+.btn{
+  background:linear-gradient(135deg,var(--gold) 0%, var(--gold-dark) 100%);
+  color:#000;
+  border:none;
+  padding:12px 28px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:16px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:transform var(--transition), box-shadow var(--transition);
+  box-shadow:0 8px 24px rgba(255,215,0,.45);
+}
+.btn:hover{transform:scale(1.05); box-shadow:0 12px 32px rgba(255,215,0,.65)}
+.btn:active{transform:scale(.98)}
+
+/* shimmer */
+.btn::after{
+  content:"";
+  position:absolute;
+  top:0; left:-150%;
+  width:150%; height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+  transition:left .9s;
+}
+.btn:hover::after{left:150%}
+
+/* -------------  ANIMATIONS  ------------- */
+@keyframes fadeIn{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
