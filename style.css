@@ -1,7 +1,7 @@
 :root{
   --bg:#000000;
-  --glass:rgba(255,255,255,.05);
-  --border-gold:rgba(255,215,0,.08);
+  --glass:rgba(255,255,255,.06);
+  --border-gold:rgba(255,215,0,.1);
   --gold:#ffd700;
   --gold-dark:#b39700;
   --radius:14px;
@@ -11,8 +11,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:#e6e6e6;overflow-x:hidden}
 
-/* Particle background */
-#particles{position:fixed;inset:0;z-index:-1;background:var(--bg);background-image:radial-gradient(circle at 50% 50%,rgba(255,215,0,.04) 0%, transparent 60%)}
+#particles{position:fixed;inset:0;z-index:-1;background:var(--bg);background-image:radial-gradient(circle at 50% 50%,rgba(255,215,0,.03) 0%, transparent 60%)}
 
 .cart-icon{position:fixed;top:16px;right:16px;width:50px;height:50px;background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;animation:pulseGlow 3s infinite}
 @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.3)} 50%{box-shadow:0 0 20px 6px rgba(255,215,0,.15)}}
@@ -21,28 +20,24 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:#e6e6e6;overflow-
 .cart-badge{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#000;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(255,215,0,.5)}
 
 #list{max-width:380px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:10px;padding-top:70px}
-.card{background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);backdrop-filter:blur(16px);display:flex;align-items:center;gap:10px;padding:10px;opacity:0;transform:translateY(30px) rotateX(10deg);animation:fadeInUp .7s var(--transition) forwards;transform-style:preserve-3d;transition:transform var(--transition), box-shadow var(--transition)}
-@keyframes fadeInUp{to{opacity:1; transform:translateY(0) rotateX(0)}}
-.card:hover{transform:translateY(-6px) rotateX(-5deg); box-shadow:0 20px 40px rgba(255,215,0,.15)}
-.card img{width:70px;height:70px;border-radius:8px;object-fit:cover;flex-shrink:0;position:relative;overflow:hidden}
-.card img::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-100%);transition:transform 1s}
-.card:hover img::before{transform:translateX(100%)}
+.card{background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);backdrop-filter:blur(14px);display:flex;align-items:center;gap:10px;padding:10px;opacity:0;transform:translateY(20px);animation:fadeInUp .6s var(--transition) forwards}
+@keyframes fadeInUp{to{opacity:1; transform:translateY(0)}}
+.card img{width:70px;height:70px;border-radius:8px;object-fit:cover;transition:transform var(--transition)}
+.card:hover img{transform:scale(1.06) rotate(-1deg)}
 .name{font-size:15px;font-weight:600}
-.price{font-size:18px;font-weight:700;color:var(--gold);margin:3px 0 6px; text-shadow:0 0 8px rgba(255,215,0,.3)}
-.btn{background:linear-gradient(135deg,var(--gold) 0%, var(--gold-dark) 100%);color:#000;border:none;padding:7px 16px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--transition);box-shadow:0 6px 16px rgba(255,215,0,.4)}
-.btn::after{content:"";position:absolute;top:0;left:-150%;width:150%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transition:left 1s}
-.btn:hover::after{left:150%}
-.btn:hover{transform:scale(1.08) rotateX(-5deg); box-shadow:0 8px 20px rgba(255,215,0,.6)}
+.price{font-size:18px;font-weight:700;color:var(--gold);margin:3px 0 6px}
+.btn{background:linear-gradient(135deg,var(--gold) 0%, var(--gold-dark) 100%);color:#000;border:none;padding:7px 16px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;transition:transform var(--transition);box-shadow:0 6px 16px rgba(255,215,0,.4)}
+.btn:hover{transform:scale(1.05); box-shadow:0 8px 20px rgba(255,215,0,.6)}
 
-.screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:2000;animation:slideUpGlass .5s var(--transition); backdrop-filter: blur(20px)}
+.screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:2000;animation:slideUpGlass .4s var(--transition)}
 .screen.hidden{display:none}
 @keyframes slideUpGlass{from{transform:translateY(100%); opacity:0} to{transform:translateY(0); opacity:1}}
 .screen-header{display:flex;align-items:center;justify-content:space-between;padding:12px 10px 10px;border-bottom:1px solid var(--border-gold)}
 .screen-header h2{font-size:16px;font-weight:600}
 .close-btn{background:none;border:none;color:var(--gold);font-size:22px;cursor:pointer;transition:transform var(--transition)}
 .close-btn:hover{transform:rotate(90deg)}
-.cart-list{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:10px}
 
+.cart-list{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:10px}
 .cart-item{background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);display:flex;align-items:center;gap:10px;padding:8px;animation:itemIn .4s var(--transition)}
 @keyframes itemIn{from{opacity:0; transform:scale(.9)} to{opacity:1; transform:scale(1)}}
 .cart-item img{width:55px;height:55px;border-radius:6px;object-fit:cover}
@@ -52,26 +47,30 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:#e6e6e6;overflow-
 .cart-item-controls{display:flex;align-items:center;gap:6px}
 .cart-item-controls button{background:var(--gold);color:#000;border:none;width:22px;height:22px;border-radius:50%;font-weight:700;font-size:12px;cursor:pointer;transition:transform var(--transition)}
 .cart-item-controls button:hover{transform:scale(1.15)}
-.cart-item-controls input{width:30px;text-align:center;border:1px solid var(--border-gold);background:transparent;color:#fff;border-radius:4px;font-size:12px;animation:bounce .3s ease}
-@keyframes bounce{0%,100%{transform:scale(1)} 50%{transform:scale(1.1)}}
-.remove-btn{background:transparent;color:#ff4d4d;border:1px solid #ff4d4d;padding:3px 8px;border-radius:6px;font-size:11px;cursor:pointer;transition:background .25s, color .25s}
-.remove-btn:hover{background:#ff4d4d; color:#000}
+.cart-item-controls input{width:30px;text-align:center;border:1px solid var(--border-gold);background:transparent;color:#fff;border-radius:4px;font-size:12px}
+.cart-footer{padding:10px;border-top:1px solid var(--border-gold;display:flex;align-items:center;justify-content:space-between}
+.total-row{font-size:15px;font-weight:600}
+#totalSum{color:var(--gold);font-size:18px}
+.next-btn{background:linear-gradient(135deg,var(--gold) 0%, var(--gold-dark) 100%);color:#000;border:none;padding:8px 18px;border-radius:var(--radius);font-weight:700;font-size:14px;cursor:pointer;transition:transform var(--transition);box-shadow:0 6px 16px rgba(255,215,0,.45)}
+.next-btn:hover{transform:scale(1.05); box-shadow:0 8px 20px rgba(255,215,0,.65)}
 
-.location-box{padding:10px;text-align:center;font-size:13px}
-.location-box button{background:var(--gold);color:#000;border:none;padding:6px 12px;border-radius:var(--radius);font-weight:600;font-size:12px;cursor:pointer;transition:transform var(--transition)}
-.location-box button:hover{transform:scale(1.05)}
+.map-box{flex:1;background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);margin:10px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#7f7f7f}
+.location-footer{padding:10px;display:flex;gap:10px}
+.back-btn{flex:1;background:transparent;border:1px solid var(--border-gold);color:var(--gold);padding:8px;border-radius:var(--radius);font-weight:600;cursor:pointer;transition:background var(--transition)}
+.back-btn:hover{background:var(--glass)}
 
-.payment-box{padding:10px;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border-gold)}
-#cardInput{background:transparent;border:1px solid var(--border-gold);border-radius:var(--radius);padding:8px 10px;color:#fff;font-size:13px;outline:none;transition:box-shadow var(--transition)}
-#cardInput:focus{box-shadow:0 0 12px rgba(255,215,0,.25)}
-#cardInput::placeholder{color:#7f7f7f}
-.total-row{display:flex;justify-content:space-between;font-size:14px;font-weight:600}
-#totalSum{color:var(--gold)}
-.upload-label{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);padding:8px 10px;cursor:pointer;font-size:13px;position:relative;overflow:hidden;transition:background var(--transition)}
+.payment-content{flex:1;padding:10px;display:flex;flex-direction:column;gap:12px}
+.admin-card{background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);padding:10px;display:flex;flex-direction:column;gap:6px}
+.card-row{display:flex;justify-content:space-between;font-size:13px}
+.card-row strong{color:var(--gold)}
+.total-box{display:flex;justify-content:space-between;font-size:16px;font-weight:700}
+#finalSum{color:var(--gold);font-size:20px}
+.upload-label{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);padding:8px 10px;cursor:pointer;font-size:13px;position:relative;overflow:hidden}
 .upload-label input{display:none}
-.upload-label::after{content:"";position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(255,215,0,.3);transform:translate(-50%,-50%);transition:width .6s, height .6s}
-.upload-label:active::after{width:200px;height:200px}
-.pay-btn{background:linear-gradient(135deg,var(--gold) 0%, var(--gold-dark) 100%);color:#000;border:none;padding:10px;border-radius:var(--radius);font-weight:700;font-size:14px;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--transition);box-shadow:0 6px 18px rgba(255,215,0,.45)}
+.screenshot-preview{margin-top:8px;border-radius:var(--radius);overflow:hidden;max-height:120px}
+.screenshot-preview img{width:100%;display:block}
+.payment-footer{padding:10px;display:flex;gap:10px}
+.pay-btn{flex:1;background:linear-gradient(135deg,var(--gold) 0%, var(--gold-dark) 100%);color:#000;border:none;padding:10px;border-radius:var(--radius);font-weight:700;font-size:14px;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--transition);box-shadow:0 6px 18px rgba(255,215,0,.45)}
 .pay-btn::after{content:"";position:absolute;top:0;left:-150%;width:150%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transition:left 1s}
 .pay-btn:hover::after{left:150%}
 .pay-btn:hover{transform:scale(1.02); box-shadow:0 8px 22px rgba(255,215,0,.65)}
