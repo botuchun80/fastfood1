@@ -5,7 +5,7 @@
   --glass:rgba(255,255,255,.08);
   --text:#fff;
   --accent:#ffd700;       /* champagne */
-  --accent2:#ff1744;      /* ruby */
+  --accent-dark:#b39700;
   --radius:24px;
   --shadow:0 16px 48px rgba(255,215,0,.25);
 }
@@ -46,6 +46,21 @@ body{
   animation:fadeIn .6s ease both;
   transition:transform .35s, box-shadow .35s;
   transform-style:preserve-3d;
+  position:relative;
+}
+/* qizil tortburchak (men belgilagan) */
+.card::before{
+  content:"";
+  position:absolute;
+  top:-2px; left:-2px; right:-2px; bottom:-2px;
+  background:linear-gradient(45deg,#ff1744,#ffd700);
+  border-radius:var(--radius);
+  z-index:-1;
+  opacity:.25;
+  transition:opacity .3s;
+}
+.card:hover::before{
+  opacity:.45;
 }
 .card:hover{
   transform:translateY(-8px) rotateX(5deg);
@@ -93,7 +108,7 @@ body{
 }
 .btn{
   background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
-  color:#000;
+  color:#000;                       /* sariq fon */
   border:none;
   padding:10px 22px;
   border-radius:14px;
