@@ -1,11 +1,11 @@
-/* --------------------  CHAMPAGNE VARIABLES  -------------------- */
+/* --------------------  DIAMOND VARIABLES  -------------------- */
 :root{
   --bg:#000;
   --card:#0a0a0a;
   --glass:rgba(255,255,255,.08);
   --text:#fff;
   --accent:#ffd700;       /* champagne */
-  --accent-dark:#b39700;
+  --accent2:#ff1744;      /* ruby */
   --radius:24px;
   --shadow:0 16px 48px rgba(255,215,0,.25);
 }
@@ -23,10 +23,10 @@ body{
   display:flex;
   flex-direction:column;
   min-height:100vh;
-  padding-bottom:70px;   /* nav uchun joy */
+  padding-bottom:80px;   /* nav uchun joy */
 }
 
-/* --------------------  OVQATLAR (chiroylay animatsiya)  -------------------- */
+/* --------------------  CONTENT  -------------------- */
 #list{
   flex:1;
   padding:20px;
@@ -46,30 +46,15 @@ body{
   animation:fadeIn .6s ease both;
   transition:transform .35s, box-shadow .35s;
   transform-style:preserve-3d;
-  position:relative;
-}
-/* qizil tortburchak (men belgilagan) */
-.card::before{
-  content:"";
-  position:absolute;
-  top:-2px; left:-2px; right:-2px; bottom:-2px;
-  background:linear-gradient(45deg,#ff1744,#ffd700);
-  border-radius:var(--radius);
-  z-index:-1;
-  opacity:.25;
-  transition:opacity .3s;
-}
-.card:hover::before{
-  opacity:.45;
 }
 .card:hover{
   transform:translateY(-8px) rotateX(5deg);
   box-shadow:var(--shadow);
 }
 .card img{
-  width:110px;
-  height:110px;
-  border-radius:16px;
+  width:100px;
+  height:100px;
+  border-radius:14px;
   object-fit:cover;
   flex-shrink:0;
   border:2px solid transparent;
@@ -88,7 +73,7 @@ body{
   transform:translateX(4px);
 }
 .name{
-  font-size:19px;
+  font-size:18px;
   font-weight:600;
   transition:color .3s;
 }
@@ -96,7 +81,7 @@ body{
   color:var(--accent);
 }
 .price{
-  font-size:24px;
+  font-size:22px;
   font-weight:700;
   color:var(--accent);
   margin:6px 0 10px;
@@ -108,10 +93,10 @@ body{
 }
 .btn{
   background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);
-  color:#000;                       /* sariq fon */
+  color:#000;
   border:none;
-  padding:10px 22px;
-  border-radius:14px;
+  padding:10px 20px;
+  border-radius:12px;
   font-weight:700;
   cursor:pointer;
   transition:.25s;
@@ -131,28 +116,28 @@ body{
   left:100%;
 }
 .btn:hover{
-  transform:scale(1.1);
-  box-shadow:0 12px 32px rgba(255,215,0,.6);
+  transform:scale(1.08);
+  box-shadow:0 8px 28px rgba(255,215,0,.6);
 }
 .btn:active{
   transform:scale(.97);
 }
 
-/* --------------------  PASTKI NAV (yuqoriroq, orqa o‘chirilgan)  -------------------- */
+/* --------------------  PASTKI NAV (shesha oynale)  -------------------- */
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  height:64px;                      /* yuqoriroq */
-  background:var(--glass);
+  height:64px;
+  background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,215,0,.04));
   backdrop-filter:blur(16px);
-  border-top:1px solid rgba(255,255,255,.1);
+  border-top:1px solid rgba(255,215,0,.2);
   display:flex;
   align-items:center;
   justify-content:space-around;
   z-index:10;
-  /* orqa o‘chirilgan – hech qanday orqa fon */
+  /* shesha oynale – 3-rasmdagidek */
 }
 .nav-item{
   background:transparent;
@@ -179,9 +164,9 @@ body{
   fill:var(--text);
   transition:.3s;
 }
-.nav-icon.diamond{ fill:var(--accent); }
-.nav-icon.champagne{ fill:var(--accent); }
-.nav-icon.ruby{ fill:var(--accent2); }
+.nav-icon.menu{ fill:var(--accent); }
+.nav-icon.cart{ fill:var(--accent); }
+.nav-icon.profile{ fill:var(--accent2); }
 .nav-label{
   font-size:12px;
   font-weight:600;
