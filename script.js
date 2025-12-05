@@ -9,9 +9,10 @@ const items = [
 
 const list = document.getElementById('list');
 
-items.forEach(it => {
+items.forEach((it,i)=>{
   const card = document.createElement('div');
   card.className = 'card';
+  card.style.animationDelay = `${i*0.08}s`;
   card.innerHTML = `
     <img src="${it.img}" alt="">
     <div class="info">
@@ -22,16 +23,23 @@ items.forEach(it => {
   list.appendChild(card);
 });
 
-function sendItem(name) {
-  if (window.Telegram.WebApp) {
-    Telegram.WebApp.sendData(JSON.stringify({ action: "select", item: name }));
-  } else {
-    alert("Tanlandi (test): " + name);
+function sendItem(name){
+  if(window.Telegram && window.Telegram.WebApp){
+    Telegram.WebApp.sendData(JSON.stringify({action:"select",item:name}));
+  }else{
+    alert("Tanlandi (test): "+name);
   }
 }
 
-if (window.Telegram.WebApp) {
+if(window.Telegram && window.Telegram.WebApp){
   Telegram.WebApp.ready();
   Telegram.WebApp.expand();
 }
 
+/* ---------- bottom nav active ---------- */
+document.querySelectorAll('.nav-item').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
