@@ -1,4 +1,4 @@
-// Particle background
+// Particle
 function createParticle() {
   const p = document.createElement('div');
   p.className = 'particle';
@@ -27,7 +27,7 @@ const items = [
   { id: 6, img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 }
 ];
 
-let cart = []; // {id, name, price, qty}
+let cart = [];
 let locationData = null;
 let screenshotFile = null;
 
@@ -38,10 +38,22 @@ const cartScreen = document.getElementById('cartScreen');
 const closeCart = document.getElementById('closeCart');
 const cartList = document.getElementById('cartList');
 const totalSum = document.getElementById('totalSum');
-const locationBox = document.getElementById('locationBox');
+const nextBtn = document.getElementById('nextBtn');
+
+const locationScreen = document.getElementById('locationScreen');
+const closeLocation = document.getElementById('closeLocation');
+const mapBox = document.getElementById('map');
+const backFromLocation = document.getElementById('backFromLocation');
+const confirmLocation = document.getElementById('confirmLocation');
+
+const paymentScreen = document.getElementById('paymentScreen');
+const closePayment = document.getElementById('closePayment');
+const finalSum = document.getElementById('finalSum');
 const cardInput = document.getElementById('cardInput');
 const screenshot = document.getElementById('screenshot');
-const payBtn = document.getElementById('payBtn');
+const screenshotPreview = document.getElementById('screenshotPreview');
+const backFromPayment = document.getElementById('backFromPayment');
+const confirmPayment = document.getElementById('confirmPayment');
 
 items.forEach((it, i) => {
   const card = document.createElement('div');
@@ -103,6 +115,7 @@ function renderCart() {
     cartList.appendChild(div);
   });
   totalSum.textContent = total.toLocaleString() + ' so‘m';
+  finalSum.textContent = total.toLocaleString() + ' so‘m';
 }
 
 function changeQty(idx, delta) {
@@ -116,50 +129,69 @@ function removeItem(idx) {
   updateBadge();
 }
 
-function requestLocation() {
+nextBtn.onclick = () => {
+  cartScreen.classList.add('hidden');
+  locationScreen.classList.remove('hidden');
+  initMap();
+};
+
+closeLocation.onclick = () => locationScreen.classList.add('hidden');
+backFromLocation.onclick = () => {
+  locationScreen.classList.add('hidden');
+  cartScreen.classList.remove('hidden');
+};
+
+function initMap() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(pos => {
       locationData = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
-      locationBox.classList.add('hidden');
+      mapBox.innerHTML = `<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+        src="https://maps.google.com/maps?q=${locationData.latitude},${locationData.longitude}&hl=en&z=16&amp;output=embed"></iframe>`;
     }, err => {
-      Telegram.WebApp.showPopup({ title: "⚠️", message: "Joylashuvni yoqib qo‘ying" });
+      mapBox.innerHTML = "Joylashuvni yoqib qo‘ying";
     });
   } else {
-    Telegram.WebApp.showPopup({ title: "⚠️", message: "Brauzer geolocation ni qo‘llab-quvvatlamaydi" });
+    mapBox.innerHTML = "Brauzer geolocation ni qo‘llab-quvvatlamaydi";
   }
 }
 
-cardInput.addEventListener('input', e => {
-  let val = e.target.value.replace(/\D/g, '').match(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})/);
-  e.target.value = !val[2] ? val[1] : val[1] + ' ' + val[2] + (val[3] ? ' ' + val[3] : '') + (val[4] ? ' ' + val[4] : '');
-});
+confirmLocation.onclick = () => {
+  if (!locationData) return Telegram.WebApp.showPopup({ title: "⚠️", message: "Joylashuvni tanlang" });
+  locationScreen.classList.add('hidden');
+  paymentScreen.classList.remove('hidden');
+};
+
+closePayment.onclick = () => paymentScreen.classList.add('hidden');
+backFromPayment.onclick = () => {
+  paymentScreen.classList.add('hidden');
+  locationScreen.classList.remove('hidden');
+};
 
 screenshot.onchange = e => {
   screenshotFile = e.target.files[0];
-};
-
-payBtn.onclick = async () => {
-  if (!cart.length) return Telegram.WebApp.showPopup({ title: "⚠️", message: "Savat bo‘sh" });
-  if (!cardInput.value.trim()) return Telegram.WebApp.showPopup({ title: "⚠️", message: "Karta raqamini kiriting" });
-  if (!locationData) {
-    locationBox.classList.remove('hidden');
-    return;
-  }
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const phone = new URLSearchParams(location.search).get("phone") || "";
-  const order = cart.map(i => ({ name: i.name, price: i.price, qty: i.qty, sub: i.price * i.qty }));
-  const payload = { action: "order", phone, items: order, card: cardInput.value.trim(), total, location: locationData };
-
   if (screenshotFile) {
     const reader = new FileReader();
     reader.onload = () => {
-      Telegram.WebApp.sendData(JSON.stringify({ ...payload, screenshot: reader.result.split(',')[1] }));
+      screenshotPreview.innerHTML = `<img src="${reader.result}" alt="screenshot">`;
+      screenshotPreview.classList.remove('hidden');
     };
     reader.readAsDataURL(screenshotFile);
-  } else {
-    Telegram.WebApp.sendData(JSON.stringify(payload));
   }
-  Telegram.WebApp.showPopup({ title: "✅", message: "Buyurtma yuborildi!" });
+};
+
+confirmPayment.onclick = async () => {
+  if (!screenshotFile) return Telegram.WebApp.showPopup({ title: "⚠️", message: "Screenshot yuklang" });
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const phone = new URLSearchParams(location.search).get("phone") || "";
+  const order = cart.map(i => ({ name: i.name, price: i.price, qty: i.qty, sub: i.price * i.qty }));
+  const payload = { action: "order", phone, items: order, card: "8600 1234 5678 9012", total, location: locationData };
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    Telegram.WebApp.sendData(JSON.stringify({ ...payload, screenshot: reader.result.split(',')[1] }));
+    Telegram.WebApp.showPopup({ title: "✅", message: "Buyurtma yuborildi!" });
+  };
+  reader.readAsDataURL(screenshotFile);
 };
 
 if (window.Telegram && Telegram.WebApp) {
