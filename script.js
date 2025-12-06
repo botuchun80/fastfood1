@@ -18,15 +18,6 @@ function createParticle() {
 for (let i = 0; i < 30; i++) setTimeout(createParticle, i * 200);
 window.setInterval(createParticle, 400);
 
-const items = [
-  { id: 1, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Burger", price: 50000 },
-  { id: 2, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Cheeseburger", price: 42000 },
-  { id: 3, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Hamburger", price: 45000 },
-  { id: 4, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Double Cheeseburger", price: 35000 },
-  { id: 5, img: "https://i.ibb.co/RkMYJJG8/44d00abe-766c-4b92-aedb-4840c48637bb.jpg", name: "Pepsi", price: 10000 },
-  { id: 6, img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 }
-];
-
 let cart = [];
 let locationData = null;
 let screenshotFile = null;
@@ -54,6 +45,31 @@ const screenshot = document.getElementById('screenshot');
 const screenshotPreview = document.getElementById('screenshotPreview');
 const backFromPayment = document.getElementById('backFromPayment');
 const confirmPayment = document.getElementById('confirmPayment');
+
+const items = [
+  { id: 1, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Burger", price: 50000 },
+  { id: 2, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Cheeseburger", price: 42000 },
+  { id: 3, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Hamburger", price: 45000 },
+  { id: 4, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Double Cheeseburger", price: 35000 },
+  { id: 5, img: "https://i.ibb.co/RkMYJJG8/44d00abe-766c-4b92-aedb-4840c48637bb.jpg", name: "Pepsi", price: 10000 },
+  { id: 6, img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 }
+];
+
+// 1 marta flag
+let executed = false;
+let cartOpened = false;
+let nextClicked = false;
+let backFromLocationClicked = false;
+let confirmLocationClicked = false;
+let backFromPaymentClicked = false;
+let confirmPaymentClicked = false;
+
+if (window.Telegram && Telegram.WebApp) {
+  Telegram.WebApp.ready();
+  Telegram.WebApp.expand();
+  if (executed) return;
+  executed = true;
+}
 
 items.forEach((it, i) => {
   const card = document.createElement('div');
@@ -86,6 +102,8 @@ function updateBadge() {
 }
 
 cartIcon.onclick = () => {
+  if (cartOpened) return;
+  cartOpened = true;
   renderCart();
   cartScreen.classList.remove('hidden');
 };
@@ -130,6 +148,8 @@ function removeItem(idx) {
 }
 
 nextBtn.onclick = () => {
+  if (nextClicked) return;
+  nextClicked = true;
   cartScreen.classList.add('hidden');
   locationScreen.classList.remove('hidden');
   initMap();
@@ -137,6 +157,8 @@ nextBtn.onclick = () => {
 
 closeLocation.onclick = () => locationScreen.classList.add('hidden');
 backFromLocation.onclick = () => {
+  if (backFromLocationClicked) return;
+  backFromLocationClicked = true;
   locationScreen.classList.add('hidden');
   cartScreen.classList.remove('hidden');
 };
@@ -156,6 +178,8 @@ function initMap() {
 }
 
 confirmLocation.onclick = () => {
+  if (confirmLocationClicked) return;
+  confirmLocationClicked = true;
   if (!locationData) return Telegram.WebApp.showPopup({ title: "⚠️", message: "Joylashuvni tanlang" });
   locationScreen.classList.add('hidden');
   paymentScreen.classList.remove('hidden');
@@ -163,9 +187,16 @@ confirmLocation.onclick = () => {
 
 closePayment.onclick = () => paymentScreen.classList.add('hidden');
 backFromPayment.onclick = () => {
+  if (backFromPaymentClicked) return;
+  backFromPaymentClicked = true;
   paymentScreen.classList.add('hidden');
   locationScreen.classList.remove('hidden');
 };
+
+function copyCard() {
+  navigator.clipboard.writeText('8600123456789012');
+  Telegram.WebApp.showPopup({ title: "✅", message: "Karta raqami nusxalandi!" });
+}
 
 screenshot.onchange = e => {
   screenshotFile = e.target.files[0];
@@ -174,27 +205,28 @@ screenshot.onchange = e => {
     reader.onload = () => {
       screenshotPreview.innerHTML = `<img src="${reader.result}" alt="screenshot">`;
       screenshotPreview.classList.remove('hidden');
+      payBtn.style.animation = 'pulseGlow 1s infinite';
     };
     reader.readAsDataURL(screenshotFile);
   }
 };
 
-confirmPayment.onclick = async () => {
+confirmPayment.onclick = () => {
+  if (confirmPaymentClicked) return;
+  confirmPaymentClicked = true;
   if (!screenshotFile) return Telegram.WebApp.showPopup({ title: "⚠️", message: "Screenshot yuklang" });
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const phone = new URLSearchParams(location.search).get("phone") || "";
-  const order = cart.map(i => ({ name: i.name, price: i.price, qty: i.qty, sub: i.price * i.qty }));
-  const payload = { action: "order", phone, items: order, card: "8600 1234 5678 9012", total, location: locationData };
-
   const reader = new FileReader();
   reader.onload = () => {
-    Telegram.WebApp.sendData(JSON.stringify({ ...payload, screenshot: reader.result.split(',')[1] }));
-    Telegram.WebApp.showPopup({ title: "✅", message: "Buyurtma yuborildi!" });
+    Telegram.WebApp.sendData(JSON.stringify({
+      action: "order",
+      phone: new URLSearchParams(location.search).get("phone") || "",
+      items: cart.map(i => ({ name: i.name, price: i.price, qty: i.qty, sub: i.price * i.qty })),
+      card: "8600 1234 5678 9012",
+      total: cart.reduce((s, i) => s + i.price * i.qty, 0),
+      location: locationData,
+      screenshot: reader.result.split(',')[1]
+    }));
+    Telegram.WebApp.showPopup({ title: "✅", message: "To‘lov tasdiqlandi!" });
   };
   reader.readAsDataURL(screenshotFile);
 };
-
-if (window.Telegram && Telegram.WebApp) {
-  Telegram.WebApp.ready();
-  Telegram.WebApp.expand();
-}
