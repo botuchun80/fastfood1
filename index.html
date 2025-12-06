@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Fastfood</title>
+  <title>Aurora | To‘lov</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
   <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
@@ -20,7 +20,7 @@
   <!-- =====  MAHSULOTLAR  ===== -->
   <div id="list"></div>
 
-  <!-- =====  SAVAT EKRANI (faqat ovqatlar)  ===== -->
+  <!-- =====  SAVAT EKRANI  ===== -->
   <div id="cartScreen" class="screen hidden">
     <div class="screen-header">
       <h2>Savat</h2>
@@ -49,7 +49,7 @@
     </div>
   </div>
 
-  <!-- =====  KARTA + SCREENSHOT  ===== -->
+  <!-- =====  TO‘LOV EKRANI  ===== -->
   <div id="paymentScreen" class="screen hidden">
     <div class="screen-header">
       <h2>To‘lov</h2>
@@ -59,7 +59,8 @@
       <div class="admin-card">
         <div class="card-row">
           <span>Karta raqami:</span>
-          <strong>8600 1234 5678 9012</strong>
+          <strong id="cardNumber">8600 1234 5678 9012</strong>
+          <button class="copy-btn" onclick="copyCard()">📋</button>
         </div>
         <div class="card-row">
           <span>Ism-familya:</span>
@@ -70,15 +71,18 @@
         <span>Jami to‘lov:</span>
         <span id="finalSum">0 so‘m</span>
       </div>
-      <label class="upload-label">
+      <label class="upload-area">
         <input id="screenshot" type="file" accept="image/*">
-        <span>📸 Screenshot yuklash</span>
+        <div class="upload-inner">
+          <div class="upload-icon">📸</div>
+          <div class="upload-text">Screenshot yuklash</div>
+        </div>
       </label>
-      <div id="screenshotPreview" class="screenshot-preview hidden"></div>
+      <div id="screenshotPreview" class="preview-box hidden"></div>
     </div>
-    <div class="payment-footer">
+    <div class="footer-buttons">
       <button id="backFromPayment" class="back-btn">Orqaga</button>
-      <button id="confirmPayment" class="pay-btn">Buyurtma berish</button>
+      <button id="confirmPayment" class="pay-btn">Pul yuboring</button>
     </div>
   </div>
 
