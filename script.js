@@ -1,5 +1,5 @@
-// Particle
-function createParticle() {
+// Particle background
+(function particleLoop() {
   const p = document.createElement('div');
   p.style.position = 'fixed';
   p.style.width = '2px';
@@ -13,15 +13,12 @@ function createParticle() {
   p.style.animation = `fall ${2 + Math.random() * 3}s linear forwards`;
   document.body.appendChild(p);
   setTimeout(() => p.remove(), 5000);
-}
-for (let i = 0; i < 30; i++) setTimeout(createParticle, i * 200);
-window.setInterval(createParticle, 400);
-
-// 1 marta flag
-let executed = false;
+  setTimeout(particleLoop, 300);
+})();
 
 // Asosiy funksiya
 function main() {
+  // Mahsulotlar
   const items = [
     { id: 1, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Burger", price: 50000 },
     { id: 2, img: "https://i.ibb.co/sJtWCn5M/images-1.jpg", name: "Cheeseburger", price: 42000 },
@@ -35,6 +32,7 @@ function main() {
   let locationData = null;
   let screenshotFile = null;
 
+  // DOM elementlar
   const list = document.getElementById('list');
   const cartIcon = document.getElementById('cartIcon');
   const cartBadge = document.getElementById('cartBadge');
@@ -58,9 +56,16 @@ function main() {
   const backFromPayment = document.getElementById('backFromPayment');
   const confirmPayment = document.getElementById('confirmPayment');
 
-  // Render items
+  // 1 marta flaglar
+  let cartOpened = false;
+  let nextClicked = false;
+  let backFromLocationClicked = false;
+  let confirmLocationClicked = false;
+  let backFromPaymentClicked = false;
+  let confirmPaymentClicked = false;
+
+  // Mahsulotlar ro‘yxati
   function renderItems() {
-    const list = document.getElementById('list');
     list.innerHTML = '';
     items.forEach((it, i) => {
       const card = document.createElement('div');
@@ -77,14 +82,14 @@ function main() {
     });
   }
 
-  function addToCart(id) {
+  window.addToCart = function (id) {
     const item = items.find(i => i.id === id);
     const exist = cart.find(i => i.id === id);
     if (exist) exist.qty += 1;
     else cart.push({ ...item, qty: 1 });
     updateBadge();
     Telegram.WebApp.showPopup({ title: "✅", message: `${item.name} savatga qo‘shildi` });
-  }
+  };
 
   function updateBadge() {
     const totalItems = cart.reduce((s, i) => s + i.qty, 0);
@@ -128,25 +133,19 @@ function main() {
     finalSum.textContent = total.toLocaleString() + ' so‘m';
   }
 
-  function changeQty(idx, delta) {
+  window.changeQty = function (idx, delta) {
     cart[idx].qty = Math.max(1, cart[idx].qty + delta);
     renderCart();
-  }
+  };
 
-  function removeItem(idx) {
+  window.removeItem = function (idx) {
     cart.splice(idx, 1);
     renderCart();
     updateBadge();
-  }
+  };
 
-  // 1 marta flaglar
-  let nextClicked = false;
-  let backFromLocationClicked = false;
-  let confirmLocationClicked = false;
-  let backFromPaymentClicked = false;
-  let confirmPaymentClicked = false;
-
-  document.getElementById("nextBtn").onclick = () => {
+  // Next – 1 marta
+  nextBtn.onclick = () => {
     if (nextClicked) return;
     nextClicked = true;
     cartScreen.classList.add('hidden');
@@ -154,8 +153,8 @@ function main() {
     initMap();
   };
 
-  document.getElementById("closeLocation").onclick = () => locationScreen.classList.add('hidden');
-  document.getElementById("backFromLocation").onclick = () => {
+  closeLocation.onclick = () => locationScreen.classList.add('hidden');
+  backFromLocation.onclick = () => {
     if (backFromLocationClicked) return;
     backFromLocationClicked = true;
     locationScreen.classList.add('hidden');
@@ -176,7 +175,7 @@ function main() {
     }
   }
 
-  document.getElementById("confirmLocation").onclick = () => {
+  confirmLocation.onclick = () => {
     if (confirmLocationClicked) return;
     confirmLocationClicked = true;
     if (!locationData) return Telegram.WebApp.showPopup({ title: "⚠️", message: "Joylashuvni tanlang" });
@@ -184,8 +183,8 @@ function main() {
     paymentScreen.classList.remove('hidden');
   };
 
-  document.getElementById("closePayment").onclick = () => paymentScreen.classList.add('hidden');
-  document.getElementById("backFromPayment").onclick = () => {
+  closePayment.onclick = () => paymentScreen.classList.add('hidden');
+  backFromPayment.onclick = () => {
     if (backFromPaymentClicked) return;
     backFromPaymentClicked = true;
     paymentScreen.classList.add('hidden');
@@ -198,10 +197,6 @@ function main() {
   };
 
   let screenshotFile = null;
-  const screenshot = document.getElementById('screenshot');
-  const screenshotPreview = document.getElementById('screenshotPreview');
-  const payBtn = document.getElementById('confirmPayment');
-
   screenshot.onchange = e => {
     screenshotFile = e.target.files[0];
     if (screenshotFile) {
@@ -209,13 +204,15 @@ function main() {
       reader.onload = () => {
         screenshotPreview.innerHTML = `<img src="${reader.result}" alt="screenshot">`;
         screenshotPreview.classList.remove('hidden');
-        payBtn.style.animation = 'pulseGlow 1s infinite';
+        confirmPayment.style.animation = 'pulseGlow 1s infinite';
       };
       reader.readAsDataURL(screenshotFile);
     }
   };
 
-  payBtn.onclick = () => {
+  confirmPayment.onclick = () => {
+    if (confirmPaymentClicked) return;
+    confirmPaymentClicked = true;
     if (!screenshotFile) return Telegram.WebApp.showPopup({ title: "⚠️", message: "Screenshot yuklang" });
     const reader = new FileReader();
     reader.onload = () => {
@@ -232,9 +229,6 @@ function main() {
     };
     reader.readAsDataURL(screenshotFile);
   };
-
-  // Bir marta chaqirish
-  renderItems();
 }
 
 // Telegram yoki test
