@@ -16,7 +16,7 @@
   setTimeout(particleLoop, 300);
 })();
 
-// Asosiy funksiya (bitta scope – qayta deklaratsiya yo‘q)
+// Asosiy funksiya (bitta scope – qayta deklaratsiya yo'q)
 function main() {
   // Mahsulotlar (1 marta)
   const items = [
@@ -65,7 +65,7 @@ function main() {
   let backFromPaymentClicked = false;
   let confirmPaymentClicked = false;
 
-  // Mahsulotlar ro‘yxati
+  // Mahsulotlar ro'yxati
   function renderItems() {
     list.innerHTML = '';
     items.forEach((it, i) => {
@@ -76,7 +76,7 @@ function main() {
         <img src="${it.img}" alt="">
         <div class="info">
           <div class="name">${it.name}</div>
-          <div class="price">${it.price.toLocaleString()} so‘m</div>
+          <div class="price">${it.price.toLocaleString()} so'm</div>
           <button class="btn" onclick="addToCart(${it.id})">Tanlash</button>
         </div>`;
       list.appendChild(card);
@@ -90,7 +90,7 @@ function main() {
     if (exist) exist.qty += 1;
     else cart.push({ ...item, qty: 1 });
     updateBadge();
-    Telegram.WebApp.showPopup({ title: "✅", message: `${item.name} savatga qo‘shildi` });
+    Telegram.WebApp.showPopup({ title: "✅", message: `${item.name} savatga qo'shildi` });
   };
 
   function updateBadge() {
@@ -121,18 +121,18 @@ function main() {
         <img src="${it.img}" alt="">
         <div class="cart-item-info">
           <div class="cart-item-name">${it.name}</div>
-          <div class="cart-item-price">${sub.toLocaleString()} so‘m</div>
+          <div class="cart-item-price">${sub.toLocaleString()} so'm</div>
         </div>
         <div class="cart-item-controls">
           <button onclick="changeQty(${idx},-1)">-</button>
           <input value="${it.qty}" readonly>
           <button onclick="changeQty(${idx},1)">+</button>
         </div>
-        <button class="remove-btn" onclick="removeItem(${idx})">O‘chirish</button>`;
+        <button class="remove-btn" onclick="removeItem(${idx})">O'chirish</button>`;
       cartList.appendChild(div);
     });
-    totalSum.textContent = total.toLocaleString() + ' so‘m';
-    finalSum.textContent = total.toLocaleString() + ' so‘m';
+    totalSum.textContent = total.toLocaleString() + ' so'm';
+    finalSum.textContent = total.toLocaleString() + ' so'm';
   }
 
   window.changeQty = function (idx, delta) {
@@ -170,10 +170,10 @@ function main() {
         mapBox.innerHTML = `<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
           src="https://maps.google.com/maps?q=${locationData.latitude},${locationData.longitude}&hl=en&z=16&amp;output=embed"></iframe>`;
       }, err => {
-        mapBox.innerHTML = "Joylashuvni yoqib qo‘ying";
+        mapBox.innerHTML = "Joylashuvni yoqib qo'ying";
       });
     } else {
-      mapBox.innerHTML = "Brauzer geolocation ni qo‘llab-quvvatlamaydi";
+      mapBox.innerHTML = "Brauzer geolocation ni qo'llab-quvvatlamaydi";
     }
   }
 
@@ -224,8 +224,11 @@ function main() {
       location: locationData,
       screenshot: fileReader.result.split(',')[1]
     }));
-    Telegram.WebApp.showPopup({ title: "✅", message: "To‘lov tasdiqlandi!" });
+    Telegram.WebApp.showPopup({ title: "✅", message: "To'lov tasdiqlandi!" });
   };
+
+  // MAHSULOTLARNI KO'RSATISH (to'g'irlangan joy)
+  renderItems();
 }
 
 // Telegram yoki test
@@ -234,6 +237,6 @@ if (window.Telegram && Telegram.WebApp) {
   Telegram.WebApp.expand();
   main();
 } else {
-  console.warn("Telegram yo‘q – test rejimi");
+  console.warn("Telegram yo'q – test rejimi");
   main();
 }
