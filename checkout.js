@@ -1,3 +1,13 @@
+// TELEGRAM WEBAPP TEKSHIRUVI
+if (!window.Telegram || !window.Telegram.WebApp) {
+  alert("Iltimos, Telegram orqali kiriting! Botdan Menyu tugmasi orqali.");
+  throw new Error("Telegram WebApp mavjud emas");
+}
+
+// WebAppga tayyor
+const tg = window.Telegram.WebApp;
+tg.expand(); // to‘liq ekran
+
 const CART  = JSON.parse(localStorage.getItem('cart') || '[]');
 const PHONE = localStorage.getItem('phone') || '';
 let lat = 0, lon = 0, screenshot = '';
@@ -26,8 +36,8 @@ document.getElementById('locBtn').onclick = () => {
   }, err => alert('Ruxsat bering!'));
 };
 
-// buyurtma yuborish
-document.getElementById('submitBtn').onclick = async () => {
+// BUYURTMA YUBORISH
+document.getElementById('submitBtn').onclick = () => {
   if (!screenshot) return alert('Screenshot yuklang!');
   if (!lat || !lon) return alert('Joylashuv yuboring!');
 
@@ -41,6 +51,6 @@ document.getElementById('submitBtn').onclick = async () => {
     screenshot
   };
 
-  window.Telegram.WebApp.sendData(JSON.stringify(data));
-  window.Telegram.WebApp.close();
+  tg.sendData(JSON.stringify(data));
+  tg.close();
 };
