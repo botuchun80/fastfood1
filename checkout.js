@@ -3,8 +3,6 @@ if (!window.Telegram || !window.Telegram.WebApp) {
   alert("Iltimos, Telegram orqali kiriting! Botdan Menyu tugmasi orqali.");
   throw new Error("Telegram WebApp mavjud emas");
 }
-
-// WebAppga tayyor
 const tg = window.Telegram.WebApp;
 tg.expand(); // to‘liq ekran
 
@@ -43,6 +41,7 @@ document.getElementById('submitBtn').onclick = () => {
 
   const data = {
     action: 'order',
+    user_id: tg.initDataUnsafe.user.id,   // ← mijoz ID
     phone: PHONE,
     items: CART.map(i => ({name:i.name, qty:i.qty, sub:i.price*i.qty})),
     total: sum(),
