@@ -6,6 +6,14 @@ if (!window.Telegram || !window.Telegram.WebApp) {
 const tg = window.Telegram.WebApp;
 tg.expand(); // to‘liq ekran
 
+// ✅ Xavfsiz o‘qish
+const user = tg.initDataUnsafe?.user;
+if (!user || !user.id) {
+  alert("User ma’lumotlari topilmadi. Iltimos, Telegram orqali kiriting.");
+  throw new Error("user.id mavjud emas");
+}
+const USER_ID = user.id;
+
 const CART  = JSON.parse(localStorage.getItem('cart') || '[]');
 const PHONE = localStorage.getItem('phone') || '';
 let lat = 0, lon = 0, screenshot = '';
@@ -41,7 +49,7 @@ document.getElementById('submitBtn').onclick = () => {
 
   const data = {
     action: 'order',
-    user_id: tg.initDataUnsafe.user.id,   // ← mijoz ID
+    user_id: USER_ID,   // ← xavfsiz o‘zgaruvchi
     phone: PHONE,
     items: CART.map(i => ({name:i.name, qty:i.qty, sub:i.price*i.qty})),
     total: sum(),
