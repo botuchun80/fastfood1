@@ -1,0 +1,13 @@
+:root { --bg:#000; --glass:rgba(255,255,255,.06); --border-gold:rgba(255,215,0,.1); --gold:#ffd700; --radius:12px; --transition:.3s; }
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:#e6e6e6; padding:16px; }
+#particles { position:fixed; inset:0; z-index:-1; }
+.title { text-align:center; font-size:22px; font-weight:700; margin-bottom:16px; color:var(--gold); text-shadow:0 0 12px var(--gold); }
+.card { background:var(--glass); border:1px solid var(--border-gold); border-radius:var(--radius); padding:14px; margin:0 auto 14px; max-width:380px; }
+.cardN, .name { margin-top:6px; font-size:14px; }
+.warn { margin-top:10px; font-size:13px; color:var(--gold); }
+input[type=file] { margin-top:8px; }
+#locStatus { margin-bottom:10px; }
+.goldBtn { background:var(--gold); color:#000; border:none; padding:10px 20px; border-radius:20px; font-weight:600; cursor:pointer; }
+.submitBtn { display:block; margin:20px auto 0; background:var(--gold); color:#000; border:none; padding:14px 50px; border-radius:30px; font-size:18px; font-weight:700; cursor:pointer; transition:.3s; }
+.submitBtn:hover { transform:scale(1.05); box-shadow:0 0 20px var(--gold); }
