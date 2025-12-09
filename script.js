@@ -1,4 +1,4 @@
-// Particle background
+// particle background
 (function particleLoop() {
   const p = document.createElement('div');
   p.style.position = 'fixed';
@@ -26,9 +26,17 @@ const items = [
   { id: 6, img: "https://i.ibb.co/q3590gwQ/cia493tenntd8rfc2s40-1.jpg", name: "Coca-Cola", price: 10000 }
 ];
 
+// Avtomatik telefon
+const params = new URLSearchParams(location.search);
+const phone = params.get('phone');
+if (phone) localStorage.setItem('phone', phone);
+
+// Savat
+let CART = JSON.parse(localStorage.getItem('cart') || '[]');
+function saveCart() { localStorage.setItem('cart', JSON.stringify(CART)); }
+
 // Ekranga chiqarish
 const list = document.getElementById('list');
-
 items.forEach((it, i) => {
   const card = document.createElement('div');
   card.className = 'card';
@@ -39,6 +47,32 @@ items.forEach((it, i) => {
       <div class="name">${it.name}</div>
       <div class="price">${it.price.toLocaleString()} so'm</div>
     </div>
-  `;
+    <button class="addBtn" data-id="${it.id}">＋</button>`;
   list.appendChild(card);
 });
+
+// Savatga qo‘shish
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('addBtn')) {
+    const id = +e.target.dataset.id;
+    const item = items.find(x => x.id === id);
+    const ex = CART.find(x => x.id === id);
+    if (ex) ex.qty++;
+    else CART.push({...item, qty: 1});
+    saveCart();
+    animateCartIcon();
+  }
+});
+
+// Savat ikonkasi
+function animateCartIcon() {
+  let icon = document.getElementById('cartIcon');
+  if (!icon) {
+    icon = document.createElement('div');
+    icon.id = 'cartIcon';
+    icon.onclick = () => location.href = 'cart.html';
+    document.body.appendChild(icon);
+  }
+  icon.innerHTML = `<span>${CART.reduce((s, i) => s + i.qty, 0)}</span>`;
+}
+animateCartIcon();
