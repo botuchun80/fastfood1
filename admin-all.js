@@ -22,14 +22,14 @@ async function loadAll() {
   const res = await fetch('/api/orders');
   const all = await res.json();
   const box = document.getElementById('orders');
-  if (!all.length) { box.innerHTML = "Hozircha buyurtma yo‘q"; return; }
+  if (!all.length) { box.innerHTML = "Hozircha buyurtma yo'q"; return; }
   box.innerHTML = '';
   all.forEach(o => {
     const div = document.createElement('div');
     div.className = 'order-card';
     div.innerHTML = `
-      <div class="order-phone">📞 ${o.phone}</div>
-      <div class="order-items">${o.items.map(i=>`• ${i.name} ×${i.qty} = ${i.sub.toLocaleString()} so‘m`).join('<br>')}</div>
+    <div class="order-phone">📞 ${o.phone}</div>
+      <div class="order-items">${o.items.map(i=>`• ${i.name} ×${i.qty} = ${i.sub.toLocaleString()} so'm`).join('<br>')}</div>
       <div class="order-total">Jami: ${o.total.toLocaleString()} so'm</div>
       <div>Karta: ${o.card}</div>
       <a href="https://www.google.com/maps?q=${o.location.latitude},${o.location.longitude}" target="_blank">📍 Joylashuv</a>
