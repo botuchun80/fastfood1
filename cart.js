@@ -34,6 +34,6 @@ function remove(i) { CART.splice(i, 1); render(); }
 render();
 
 document.getElementById('nextBtn').onclick = () => {
-  if (!CART.length) return alert('Savat bo‘sh!');
+  if (!CART.length) return alert('Savat bo\'sh!');
   location.href = 'checkout.html';
 };
