@@ -1,17 +1,24 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Admin | Barcha buyurtmalar</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css"/>
-</head>
-<body>
-  <div id="particles"></div>
-  <h1 class="title">Barcha buyurtmalar</h1>
-  <div id="orders" class="orders"></div>
+:root{
+  --bg:#000000;
+  --glass:rgba(255,255,255,.06);
+  --border-gold:rgba(255,215,0,.1);
+  --gold:#ffd700;
+  --gold-dark:#b39700;
+  --radius:12px;
+  --transition:.3s cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:#e6e6e6;padding:16px}
+#particles{position:fixed;inset:0;z-index:-1;background:var(--bg);background-image:radial-gradient(circle at 50% 50%,rgba(255,215,0,.03) 0%, transparent 60%)}
 
-  <script src="admin-all.js"></script>
-</body>
-</html>
+.title{text-align:center;font-size:22px;font-weight:700;margin-bottom:16px;color:var(--gold);text-shadow:0 0 12px var(--gold)}
+.orders{display:flex;flex-direction:column;gap:12px;max-width:500px;margin:0 auto}
+
+.order-card{background:var(--glass);border:1px solid var(--border-gold);border-radius:var(--radius);padding:10px;display:flex;flex-direction:column;gap:6px;animation:fadeInUp .5s var(--transition)}
+@keyframes fadeInUp{from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)}}
+.order-phone{font-size:13px;font-weight:600}
+.order-items{font-size:12px;color:#ccc}
+.order-total{font-size:14px;color:var(--gold);font-weight:700}
+.order-card a{color:var(--gold);text-decoration:none;font-size:12px}
+.order-screenshot{margin-top:6px;border-radius:var(--radius);overflow:hidden;max-height:200px}
+.order-screenshot img{width:100%;display:block}
